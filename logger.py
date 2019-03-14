@@ -23,7 +23,7 @@ class logger:
     __instancia         = None                                                                      # Declarar una variable directamente en la clase la hace estática
 
 
-    def __new__(cls, *args, **kwargs):
+    def __new__(cls, nombre_archivo):
         ''' Creador de la clase:
                 Al implementar el patrón Singleton, es necesario interceptar la creación de la clase, para no crear más de una instancia de la misma
 
@@ -36,7 +36,7 @@ class logger:
 
 
         if logger.__instancia == None:
-            logger.__instancia = object.__new__(cls, *args, **kwargs)
+            logger.__instancia = object.__new__(cls)
 
         return logger.__instancia
 
