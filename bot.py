@@ -6,8 +6,8 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 11-03-2019
-# Version       : 0.1.0
+# Date          : 09-04-2019
+# Version       : 0.1.1
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -47,22 +47,18 @@ class bot:
 
         self._cargar_token()
 
-        if self._token_bot != 0:
-            if DEBUG:
-                print('Debug: Inicializando bot...')
-                print('Debug: El token para este bot es ' + self._token_bot)
+        if DEBUG:
+            print('Debug: Inicializando bot...')
+            print('Debug: El token para este bot es ' + self._token_bot)
 
-            self._log = logger(NOMBRE_ARCHIVO_REGISTRO)
+        self._log = logger(NOMBRE_ARCHIVO_REGISTRO)
 
-            self._bot = telebot.TeleBot(self._token_bot)
-            self._bot.set_update_listener(self.listener)                                            # Asociación de la función listener al bot
+        self._bot = telebot.TeleBot(self._token_bot, threaded = False)                          # FIXME: Comportamiento no controlado cuando el token no es válido
+        self._bot.set_update_listener(self.listener)                                            # Asociación de la función listener al bot
 
-            self._pid = pid('MasterRolBot')
+        self._pid = pid('MasterRolBot')
 
-            signal.signal(signal.SIGTERM, self._sig_cerrar)
-
-        else:
-            return None
+        signal.signal(signal.SIGTERM, self._sig_cerrar)
 
 
     def _cargar_token(self):
@@ -76,16 +72,12 @@ class bot:
         '''
 
 
-        try:
-            archivo_token_bot = open('.bot.token', 'r')
-    
-            self._token_bot = archivo_token_bot.read()
-        
-            archivo_token_bot.close()
-    
-        except FileNotFoundError:
-            pass
+        archivo_token_bot = open('.bot.token', 'r')
 
+        self._token_bot = archivo_token_bot.read()
+    
+        archivo_token_bot.close()
+    
 
     def _sig_cerrar(self, signum, frame):
         ''' Método "wrapper" para la captura de la señal "sigterm"
@@ -117,15 +109,13 @@ class bot:
         self._pid.desactivar()
 
 
-    @staticmethod
-    def listener(mensajes):
+    # @staticmethod
+    def listener(self, mensajes):
         ''' Método estático de escucha de mensajes entrantes
             - Accede al sistema de registro
             - Procesa los mensajes uno a uno
             - Los registra
         '''
-
-        # TODO: Seguir aquí
 
         log = logger(NOMBRE_ARCHIVO_REGISTRO)
 
@@ -143,4 +133,10 @@ class bot:
             log.registrar(mensaje + "\n")
 
             if DEBUG:
-                print('Debug: Nuevo mensaje ➡ ' + mensaje) 
+                print('Debug: Nuevo mensaje ➡ ' + mensaje)
+
+            # TODO: Parser de mensajes
+
+            if str_mensaje.text == '/help':
+                self._bot.send_message(str_mensaje.chat.id, "The following commands are available: \n")
+
