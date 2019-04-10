@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 10-04-2019
-# Version       : 0.2.1
+# Version       : 0.2.2
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -82,6 +82,8 @@ class bot:
         self._token_bot = archivo_token_bot.read()
     
         archivo_token_bot.close()
+
+        self._token_bot = self._token_bot.lstrip()                                          # Eliminación de espacios y demás del final... por si acaso...
     
 
     def _sig_cerrar(self, signum, frame):
