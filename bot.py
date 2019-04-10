@@ -12,18 +12,18 @@
 # Notes         : 
 
 
-DEBUG                   = True                                                                      # Flag de depuración
+DEBUG                   = True                                                              # Flag de depuración
 NOMBRE_ARCHIVO_REGISTRO = 'MasterRolBot.log'
 
 
-import signal                                                                                       # Manejo de señales
+import signal                                                                               # Manejo de señales
 
-import telebot                                                                                      # Funcionalidades de la API del bot
+import telebot                                                                              # Funcionalidades de la API del bot
 
-from time   import gmtime, strftime                                                                 # Funcionalidades varias de tiempo
+from time   import gmtime, strftime                                                         # Funcionalidades varias de tiempo
 
-from logger import logger                                                                           # Funcionalidad de registro
-from pid    import pid                                                                              # Funcionalidad de PID
+from logger import logger                                                                   # Funcionalidad de registro
+from pid    import pid                                                                      # Funcionalidad de PID
 
 
 class bot:
@@ -53,8 +53,8 @@ class bot:
 
         self._log = logger(NOMBRE_ARCHIVO_REGISTRO)
 
-        self._bot = telebot.TeleBot(self._token_bot, threaded = False)                          # FIXME: Comportamiento no controlado cuando el token no es válido
-        self._bot.set_update_listener(self.listener)                                            # Asociación de la función listener al bot
+        self._bot = telebot.TeleBot(self._token_bot, threaded = False)                      # FIXME: Comportamiento no controlado cuando el token no es válido
+        self._bot.set_update_listener(self.listener)                                        # Asociación de la función listener al bot
 
         self._pid = pid('MasterRolBot')
 
@@ -95,7 +95,7 @@ class bot:
 
         self._pid.activar()
 
-        self._bot.polling(none_stop = True)                                                         # Recepción de mensajes
+        self._bot.polling(none_stop = True)                                                 # Recepción de mensajes
 
 
     def cerrar(self):
