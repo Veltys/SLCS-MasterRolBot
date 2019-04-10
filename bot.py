@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 10-04-2019
-# Version       : 0.2.0
+# Version       : 0.2.1
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -127,7 +127,7 @@ Comandos disponibles:
 - /iniciar o /start: Iniciar una nueva aventura
 - /elegir _<aventura>_ o /choose _<aventura>_: Elegir una nueva aventura
 - /opcion _<letra>_ o /option _<letra>_: Seleccionar la opción _<letra>_
-''', parse_mode = 'Markdown')
+''', parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
 
 
     def interpretar(self, mensaje):
