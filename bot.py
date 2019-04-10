@@ -119,21 +119,21 @@ class bot:
 
         log = logger(NOMBRE_ARCHIVO_REGISTRO)
 
-        for str_mensaje in mensajes:
-            mensaje = strftime("%d/%m/%Y, %H:%M:%S", gmtime()) + ' - '
+        for mensaje in mensajes:
+            texto = strftime("%d/%m/%Y, %H:%M:%S", gmtime()) + ' - '
 
-            if str_mensaje.chat.id > 0:                                                         # Si el CID > 0 (chat con usuario):
-                mensaje += str(str_mensaje.chat.first_name)                                     #     Obtención del nombre
+            if mensaje.chat.id > 0:                                                         # Si el CID > 0 (chat con usuario):
+                texto += str(mensaje.chat.first_name)                                       #     Obtención del nombre
 
-            else:                                                                               # Si no (chat con grupo):
-                mensaje += str(str_mensaje.from_user.first_name)                                #     Obtención del nombre
+            else:                                                                           # Si no (chat con grupo):
+                texto += str(mensaje.from_user.first_name)                                  #     Obtención del nombre
 
-            mensaje += ' [' + str(str_mensaje.chat.id) + ']: ' + str_mensaje.text               # Composición del resto del mensaje
+            texto += ' [' + str(mensaje.chat.id) + ']: ' + mensaje.text                     # Composición del resto del texto
 
-            log.registrar(mensaje + "\n")
+            log.registrar(texto + "\n")
 
             if DEBUG:
-                print('Debug: Nuevo mensaje ➡ ' + mensaje)
+                print('Debug: Nuevo texto ➡ ' + texto)
 
             # TODO: Parser de mensajes
 
