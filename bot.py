@@ -6,8 +6,8 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 09-04-2019
-# Version       : 0.1.1
+# Date          : 10-04-2019
+# Version       : 0.2.0
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -44,6 +44,11 @@ class bot:
                     - Retorna None y no hace nada más
         '''
 
+
+        self.__comandos = {
+            '/ayuda'    : bot.cmd_ayuda ,
+            '/help'     : bot.cmd_ayuda ,
+        }
 
         self._cargar_token()
 
@@ -109,7 +114,49 @@ class bot:
         self._pid.desactivar()
 
 
-    # @staticmethod
+    def cmd_ayuda(self, mensaje):
+        ''' Método para responder al usuario con el texto de ayuda:
+            - Responde con el texto de ayuda
+        '''
+
+        self._bot.send_message(mensaje.chat.id, '''
+Soy *MasterRolBot*, el bot de juego de partidas de rol
+
+Comandos disponibles:
+- /ayuda o /help: Mostrar este texto de ayuda
+- /iniciar o /start: Iniciar una nueva aventura
+- /elegir _<aventura>_ o /choose _<aventura>_: Elegir una nueva aventura
+- /opcion _<letra>_ o /option _<letra>_: Seleccionar la opción _<letra>_
+''', parse_mode = 'Markdown')
+
+
+    def interpretar(self, mensaje):
+        ''' Método "parser" para interpretar el mensaje y actuar en consecuencia
+            - Lee el texto del mensaje
+            - Lo busca en la información de comandos
+            - Si es encontrado:
+                - Llama al método indicado
+            - Si no:
+                - No hace nada
+        '''
+
+        if mensaje.text[0] == '/':
+            try:
+                self.__comandos[mensaje.text](self, mensaje)
+    
+            except KeyError:
+                pass
+    
+            else:
+                pass
+    
+            finally:
+                pass
+
+        else:
+            pass
+
+
     def listener(self, mensajes):
         ''' Método estático de escucha de mensajes entrantes
             - Accede al sistema de registro
@@ -135,8 +182,5 @@ class bot:
             if DEBUG:
                 print('Debug: Nuevo texto ➡ ' + texto)
 
-            # TODO: Parser de mensajes
-
-            if str_mensaje.text == '/help':
-                self._bot.send_message(str_mensaje.chat.id, "The following commands are available: \n")
+            self.interpretar(mensaje)
 
