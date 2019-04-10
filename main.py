@@ -37,6 +37,9 @@ def main(argv):
     except FileNotFoundError:
         print('Error: No se ha encontrado el archivo con el token para este bot')
 
+    except PermissionError:
+        print('Error: Sin permisos suficientes para guardar el archivo de registro de este bot')
+
     else:
         my_bot.arrancar()
         my_bot.cerrar()

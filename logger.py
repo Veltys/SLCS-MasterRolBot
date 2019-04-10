@@ -6,8 +6,8 @@
 # Description   : Módulo de registro (log) del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 11-03-2019
-# Version       : 0.1.0
+# Date          : 10-04-2019
+# Version       : 0.1.1
 # Usage         : import log | from log import ...
 # Notes         : Implementado con el patrón singleton para evitar más de un sistema de registro simultáneo
 
@@ -47,7 +47,6 @@ class logger:
         '''
 
 
-        # TODO: Try & except de permisos
         self._archivo_registro = open(self.ruta_log() + nombre_archivo, 'a', encoding='utf-8')
 
 
@@ -59,9 +58,11 @@ class logger:
         '''
 
 
-        # TODO: Try & except de existe o no el aributo
-        if self._archivo_registro != None:
+        try:
             self._archivo_registro.close()
+
+        except AttributeError:
+            pass
 
 
     def registrar(self, texto):
@@ -70,8 +71,14 @@ class logger:
         '''
 
 
-        # TODO: Try & except de existe o no el aributo
-        self._archivo_registro.write(texto + "\n")
+        try:
+            self._archivo_registro.write(texto + "\n")
+
+        except AttributeError:
+            return False
+
+        else:
+            return True
 
 
     @staticmethod
