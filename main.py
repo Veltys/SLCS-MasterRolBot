@@ -6,8 +6,8 @@
 # Description   : Función main del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 11-03-2019
-# Version       : 0.1.0
+# Date          : 10-04-2019
+# Version       : 0.1.1
 # Usage         : python3 main.py
 # Notes         : 
 
@@ -31,15 +31,15 @@ def main(argv):
     '''
 
 
-    my_bot = bot()
+    try:
+        my_bot = bot()
 
-    if my_bot != None:
-        my_bot.arrancar()
-
-        my_bot.cerrar()
+    except FileNotFoundError:
+        print('Error: No se ha encontrado el archivo con el token para este bot')
 
     else:
-        print('Error: No se ha encontrado el archivo con el token para este bot')
+        my_bot.arrancar()
+        my_bot.cerrar()
 
 
 if __name__ == '__main__':
