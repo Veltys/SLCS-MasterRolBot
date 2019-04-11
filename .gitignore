@@ -1,4 +1,4 @@
-# Byte-compiled / optimized / DLL files
+﻿# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -107,6 +107,7 @@ venv.bak/
 /.project
 /.pydevproject
 /.settings/
+/.dbeaver-data-sources.xml
 
 # Protección del archivo del token del bot
 .bot.token
