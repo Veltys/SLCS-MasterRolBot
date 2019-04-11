@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 11-04-2019
-# Version       : 0.2.4
+# Version       : 0.3.0
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -46,8 +46,10 @@ class bot:
 
 
         self.__comandos = {
-            '/ayuda'    : bot.cmd_ayuda ,
-            '/help'     : bot.cmd_ayuda ,
+            '/ayuda'    : bot.cmd_ayuda     ,
+            '/help'     : bot.cmd_ayuda     ,
+            '/opcion'   : bot.cmd_opcion    ,
+            '/option'   : bot.cmd_opcion    ,
         }
 
         self._cargar_token()
@@ -130,6 +132,22 @@ Comandos disponibles:
 - /elegir _<aventura>_ o /choose _<aventura>_: Elegir una nueva aventura
 - /opcion _<letra>_ o /option _<letra>_: Seleccionar la opción _<letra>_
 ''', parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
+
+
+    def cmd_opcion(self, mensaje):
+        ''' Método de avance en la aventura a través de una opción
+            - Si existe aventura en curso para el usuario:
+                - La carga
+                - Si la opción es válida:
+                    - Avanza al estado correspondiente e informa al usuario
+                - Si no:
+                    - Informa al usuario del error y de las opciones disponibles
+            - Si no:
+                - Informa al usuario de que no está jugando y le ofrece el catálogo de aventuras disponibles
+        '''
+
+
+        pass
 
 
     def interpretar(self, mensaje):
