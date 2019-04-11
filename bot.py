@@ -6,8 +6,8 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 10-04-2019
-# Version       : 0.2.2
+# Date          : 11-04-2019
+# Version       : 0.2.3
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -83,7 +83,7 @@ class bot:
     
         archivo_token_bot.close()
 
-        self._token_bot = self._token_bot.lstrip()                                          # Eliminación de espacios y demás del final... por si acaso...
+        self._token_bot = self._token_bot.lstrip().replace("\n", '')                        # Eliminación de espacios y demás del final... por si acaso...
     
 
     def _sig_cerrar(self, signum, frame):
