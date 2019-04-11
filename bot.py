@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 11-04-2019
-# Version       : 0.2.3
+# Version       : 0.2.4
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -144,7 +144,7 @@ Comandos disponibles:
 
         if mensaje.text[0] == '/':
             try:
-                self.__comandos[mensaje.text](self, mensaje)
+                self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
     
             except KeyError:
                 pass
