@@ -153,10 +153,10 @@ class bot:
 Soy *MasterRolBot*, el bot de juego de partidas de rol
 
 Comandos disponibles:
-- /ayuda o /help: Mostrar este texto de ayuda
-- /iniciar o /start: Iniciar una nueva aventura
-- /elegir _<aventura>_ o /choose _<aventura>_: Elegir una nueva aventura
-- /opcion _<letra>_ o /option _<letra>_: Seleccionar la opción _<letra>_
+- /help: Mostrar este texto de ayuda
+- /start: Iniciar una nueva aventura
+- /choose _<aventura>_: Elegir una nueva aventura
+- /option _<letra>_: Seleccionar la opción _<letra>_
 ''', parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
 
 
