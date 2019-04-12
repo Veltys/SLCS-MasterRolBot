@@ -203,21 +203,24 @@ Comandos disponibles:
                 - Se introduce en la BB. DD.
                 - Se le da la bienvenida mostrando una lista con las aventuras disponibles
         '''
-
+        
         try:
             self._bbdd.execute('INSERT INTO `Usuarios`(`Id`) VALUES (?)', (
                                 str(mensaje.chat.id)    ,
                               ))
 
         except sqlite3.IntegrityError:
-            texto = '¡Bienvenido de nuevo, ' + mensaje.chat.first_name + '''!
-Si deseas continuar, simplemente responde con la opción que desees.
-Si deseas reiniciar tu aventura, puedes usar el comando /reiniciar
-Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
+            
+            state = self._bbdd.execute('SELECT Estado FROM Usuarios WHERE Id = \'%s\'' % str(mensaje.chat.id))
+        
+            if state == 0:
+                texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:"
+            else:
+                texto = '¡Bienvenido, ' + mensaje.chat.first_name + '''!
+    Si deseas continuar, simplemente responde con la opción que desees.
+    Si deseas reiniciar tu aventura, puedes usar el comando /reiniciar
+    Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
 '''
-
-        else:
-            texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:\n"
 
         finally:
             self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` != 0')
