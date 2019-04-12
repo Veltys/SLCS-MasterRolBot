@@ -112,3 +112,4 @@ venv.bak/
 # Protección de archivos del proyecto
 /.bot.token
 /bbdd.sqlite
+/bbdd.sqlite-journal
