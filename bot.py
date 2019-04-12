@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 12-04-2019
-# Version       : 0.3.1
+# Version       : 0.4.0
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
