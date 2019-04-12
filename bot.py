@@ -192,11 +192,11 @@ Comandos disponibles:
                 - Informa al usuario de que no está jugando y le ofrece el catálogo de aventuras disponibles
         '''
 
-
         pass
 
 
     def cmd_start(self, mensaje):
+        # FIXME: Comentar
         
         with self._bbdd:
             self._bbdd.execute("insert into Usuarios(Id) values (?)", (str(mensaje.chat.id),))

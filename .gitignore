@@ -109,5 +109,6 @@ venv.bak/
 /.settings/
 /.dbeaver-data-sources.xml
 
-# Protección del archivo del token del bot
-.bot.token
+# Protección de archivos del proyecto
+/.bot.token
+/bbdd.sqlite
