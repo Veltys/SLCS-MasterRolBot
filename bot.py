@@ -49,6 +49,7 @@ class bot:
         self.__cierre   = False
 
         self.__comandos = {
+            '/start'    : bot.cmd_start     ,
             '/ayuda'    : bot.cmd_ayuda     ,
             '/help'     : bot.cmd_ayuda     ,
             '/opcion'   : bot.cmd_opcion    ,
@@ -191,6 +192,10 @@ Comandos disponibles:
 
         pass
 
+    def cmd_start(self, mensaje):
+        
+        with self._bbdd:
+            self._bbdd.execute("insert into Usuarios(Id) values (?)", (str(mensaje.chat.id),))
 
     def interpretar(self, mensaje):
         ''' Método "parser" para interpretar el mensaje y actuar en consecuencia
