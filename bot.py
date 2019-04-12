@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 12-04-2019
-# Version       : 0.4.0
+# Version       : 0.4.1
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -49,14 +49,10 @@ class bot:
         self.__cierre   = False
 
         self.__comandos = {
-            '/start'    : bot.cmd_start     ,
-            '/ayuda'    : bot.cmd_ayuda     ,
-            '/help'     : bot.cmd_ayuda     ,
-            '/opcion'   : bot.cmd_opcion    ,
-            '/option'   : bot.cmd_opcion    ,
+            '/help'     : bot.cmd_help      ,
+            '/option'   : bot.cmd_option    ,
 
-            '.cerrar'   : bot.cmd_cerrar    ,
-            '.close'    : bot.cmd_cerrar    ,
+            '.close'    : bot.cmd_close     ,
         }
 
         self._cargar_token()
@@ -145,7 +141,7 @@ class bot:
         self._pid.desactivar()
 
 
-    def cmd_ayuda(self, mensaje):
+    def cmd_help(self, mensaje):
         ''' Método para responder al usuario con el texto de ayuda:
             - Responde con el texto de ayuda
         '''
@@ -161,7 +157,7 @@ Comandos disponibles:
 ''', parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
 
 
-    def cmd_cerrar(self, mensaje):
+    def cmd_close(self, mensaje):
         ''' Método "wrapper" para llevar a cabo el cierre del bot
             - Cierra el bot si recibe dos veces el comando adecuado
         '''
@@ -177,7 +173,7 @@ Comandos disponibles:
             exit()
 
 
-    def cmd_opcion(self, mensaje):
+    def cmd_option(self, mensaje):
         ''' Método de avance en la aventura a través de una opción
             - Si existe aventura en curso para el usuario:
                 - La carga
