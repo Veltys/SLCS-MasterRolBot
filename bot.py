@@ -37,14 +37,12 @@ class bot:
     def __init__(self):
         ''' Constructor de la clase:
                 - Carga el token del acceso a la api de Telegram
-                - Si ha podido cargarlo con éxito:
-                    - Activa el sistema de registro
-                    - Conecta con la api de Telegram
-                    - Prepara la llamada al "listener"
-                    - Prepara el objeto pid
-                    - Captura la señal "sigterm"
-                - Si no:
-                    - Retorna None y no hace nada más
+                - Activa el sistema de registro
+                - Conecta con la api de Telegram
+                - Conecta con el SGBD
+                - Prepara la llamada al "listener"
+                - Prepara el objeto pid
+                - Captura la señal "sigterm"
         '''
 
 
