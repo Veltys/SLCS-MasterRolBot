@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 12-04-2019
-# Version       : 0.4.1
+# Version       : 0.4.2
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -208,8 +208,10 @@ Comandos disponibles:
                 self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
     
             except KeyError:
-                pass
+                self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido')
     
+                self.__comandos['/help'](self, mensaje)
+
             else:
                 pass
     
@@ -218,9 +220,19 @@ Comandos disponibles:
 
         elif mensaje.text[0] == '.':
             if mensaje.chat.id in ADMINISTRADORES:
-                self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando...')
+                try:
+                    self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
 
-                self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
+                except KeyError:
+                    self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido')
+
+                    self.__comandos['/help'](self, mensaje)
+
+                else:
+                    self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando...')
+    
+                finally:
+                    pass
 
             else:
                 self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando')
