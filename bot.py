@@ -210,17 +210,22 @@ Comandos disponibles:
                               ))
 
         except sqlite3.IntegrityError:
-            texto = '¡Bienvenido, ' + mensaje.chat.first_name + '''!
+            texto = '¡Bienvenido de nuevo, ' + mensaje.chat.first_name + '''!
 Si deseas continuar, simplemente responde con la opción que desees.
 Si deseas reiniciar tu aventura, puedes usar el comando /reiniciar
 Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
 '''
 
         else:
-            texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:"
+            texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:\n"
 
         finally:
-            # TODO: Mostrar la lista de aventuras
+            self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` != 0')
+
+            juegos = self._bbdd.fetchall()
+
+            for juego in juegos:
+                texto += juego[0] + "\n"
 
             self._bot.send_message(mensaje.chat.id, texto)
 
