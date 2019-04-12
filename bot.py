@@ -197,9 +197,8 @@ Comandos disponibles:
 
     def cmd_start(self, mensaje):
         # FIXME: Comentar
-        
-        with self._bbdd:
-            self._bbdd.execute("insert into Usuarios(Id) values (?)", (str(mensaje.chat.id),))
+
+        self._bbdd.execute("insert into Usuarios(Id) values (?)", (str(mensaje.chat.id),))
 
 
     def interpretar(self, mensaje):
