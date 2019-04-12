@@ -199,18 +199,24 @@ Comandos disponibles:
         # FIXME: Comentar
 
         try:
-            self._bbdd.execute("INSERT INTO `Usuarios`(`Id`) VALUES (?)", (
+            self._bbdd.execute('INSERT INTO `Usuarios`(`Id`) VALUES (?)', (
                                 str(mensaje.chat.id)    ,
                               ))
 
         except sqlite3.IntegrityError:
-            pass
+            texto = '¡Bienvenido, ' + mensaje.chat.first_name + '''!
+Si deseas continuar, simplemente responde con la opción que desees.
+Si deseas reiniciar tu aventura, puedes usar el comando /reiniciar
+Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
+'''
 
         else:
-            pass
+            texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:"
 
         finally:
-            pass
+            # TODO: Mostrar la lista de aventuras
+
+            self._bot.send_message(mensaje.chat.id, texto)
 
 
     def interpretar(self, mensaje):
