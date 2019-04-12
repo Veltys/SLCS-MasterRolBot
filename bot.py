@@ -66,20 +66,21 @@ class bot:
             print('Debug: Inicializando bot...')
             print('Debug: El token para este bot es ' + self._token_bot)
 
-        self._log = logger(NOMBRE_ARCHIVO_REGISTRO)
+        self._log       = logger(NOMBRE_ARCHIVO_REGISTRO)
 
         if DEBUG:
             print('Debug: Activado el sistema de registro')
 
-        self._bbdd = sqlite3.connect('bbdd.sqlite')
+        self.__bbdd     = sqlite3.connect('bbdd.sqlite')
+        self._bbdd      = self.__bbdd.cursor()
 
         if DEBUG:
             print('Debug: Conectado a la BB. DD.')
 
-        self._bot = telebot.TeleBot(self._token_bot, threaded = False)                      # FIXME: Comportamiento no controlado cuando el token no es válido
+        self._bot       = telebot.TeleBot(self._token_bot, threaded = False)                # FIXME: Comportamiento no controlado cuando el token no es válido
         self._bot.set_update_listener(self.listener)                                        # Asociación de la función listener al bot
 
-        self._pid = pid('MasterRolBot')
+        self._pid       = pid('MasterRolBot')
 
         signal.signal(signal.SIGTERM, self._sig_cerrar)
 
@@ -136,7 +137,8 @@ class bot:
         if DEBUG:
             print('Debug: Desactivado el sistema de registro')
 
-        self._bbdd.close()
+        self.__bbdd.commit()
+        self.__bbdd.close()
 
         if DEBUG:
             print('Debug: Desconectado de la BB. DD.')
