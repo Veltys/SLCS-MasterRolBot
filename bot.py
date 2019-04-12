@@ -11,7 +11,9 @@
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
-
+ADMINISTRADORES         = []                                                                # Lista de administradores
+ADMINISTRADORES.append(***REMOVED***)                                                           # Jesús
+ADMINISTRADORES.append(***REMOVED***)                                                           # Rafa
 DEBUG                   = True                                                              # Flag de depuración
 NOMBRE_ARCHIVO_REGISTRO = 'MasterRolBot.log'                                                # Archivo de registro
 
@@ -46,11 +48,16 @@ class bot:
         '''
 
 
+        self.__cierre   = False
+
         self.__comandos = {
             '/ayuda'    : bot.cmd_ayuda     ,
             '/help'     : bot.cmd_ayuda     ,
             '/opcion'   : bot.cmd_opcion    ,
             '/option'   : bot.cmd_opcion    ,
+
+            '.cerrar'   : bot.cmd_cerrar    ,
+            '.close'    : bot.cmd_cerrar    ,
         }
 
         self._cargar_token()
@@ -153,6 +160,22 @@ Comandos disponibles:
 ''', parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
 
 
+    def cmd_cerrar(self, mensaje):
+        ''' Método "wrapper" para llevar a cabo el cierre del bot
+            - Cierra el bot si recibe dos veces el comando adecuado
+        '''
+
+        if self.__cierre == False:
+            self.__cierre = True
+
+            self._bot.send_message(mensaje.chat.id, 'Aviso: Vuelva a ejecutar el comando para continuar con el cierre')
+
+        else:
+            self.cerrar()
+    
+            exit()
+
+
     def cmd_opcion(self, mensaje):
         ''' Método de avance en la aventura a través de una opción
             - Si existe aventura en curso para el usuario:
@@ -191,6 +214,15 @@ Comandos disponibles:
     
             finally:
                 pass
+
+        elif mensaje.text[0] == '.':
+            if mensaje.chat.id in ADMINISTRADORES:
+                self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando...')
+
+                self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
+
+            else:
+                self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando')
 
         else:
             pass
