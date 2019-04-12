@@ -196,7 +196,13 @@ Comandos disponibles:
 
 
     def cmd_start(self, mensaje):
-        # FIXME: Comentar
+        ''' Método de inicio de la aventura a través de una opción
+            - Si existe el usuario:
+                - Se le informa de las opciones que puede utilizar
+            - Si no existe:
+                - Se introduce en la BB. DD.
+                - Se le da la bienvenida mostrando una lista con las aventuras disponibles
+        '''
 
         try:
             self._bbdd.execute('INSERT INTO `Usuarios`(`Id`) VALUES (?)', (
