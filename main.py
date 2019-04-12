@@ -6,8 +6,8 @@
 # Description   : Función main del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 10-04-2019
-# Version       : 0.1.1
+# Date          : 12-04-2019
+# Version       : 0.1.2
 # Usage         : python3 main.py
 # Notes         : 
 
@@ -25,7 +25,7 @@ def main(argv):
             - Intenta crear una instancia del bot
             - Si tiene éxito:
                 - Arranca el bot
-                - No debería de llegar a este puto, pero llegado el caso, procede al cierre del mismo
+                - No debería de llegar a este punto, pero llegado el caso, procede al cierre del mismo
             - Si no:
                 - Muestra el error por pantalla
     '''
