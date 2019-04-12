@@ -17,6 +17,7 @@ NOMBRE_ARCHIVO_REGISTRO = 'MasterRolBot.log'                                    
 
 
 import signal                                                                               # Manejo de señales
+import sqlite3                                                                              # Manejo de BB. DD. SQLite 3
 
 import telebot                                                                              # Funcionalidades de la API del bot
 
@@ -62,6 +63,11 @@ class bot:
 
         if DEBUG:
             print('Debug: Activado el sistema de registro')
+
+        self._bbdd = sqlite3.connect('bbdd.sqlite')
+
+        if DEBUG:
+            print('Debug: Conectado a la BB. DD.')
 
         self._bot = telebot.TeleBot(self._token_bot, threaded = False)                      # FIXME: Comportamiento no controlado cuando el token no es válido
         self._bot.set_update_listener(self.listener)                                        # Asociación de la función listener al bot
@@ -122,6 +128,11 @@ class bot:
 
         if DEBUG:
             print('Debug: Desactivado el sistema de registro')
+
+        self._bbdd.close()
+
+        if DEBUG:
+            print('Debug: Desconectado de la BB. DD.')
 
         self._pid.desactivar()
 
