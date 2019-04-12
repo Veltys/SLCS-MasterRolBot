@@ -198,7 +198,19 @@ Comandos disponibles:
     def cmd_start(self, mensaje):
         # FIXME: Comentar
 
-        self._bbdd.execute("insert into Usuarios(Id) values (?)", (str(mensaje.chat.id),))
+        try:
+            self._bbdd.execute("INSERT INTO `Usuarios`(`Id`) VALUES (?)", (
+                                str(mensaje.chat.id)    ,
+                              ))
+
+        except sqlite3.IntegrityError:
+            pass
+
+        else:
+            pass
+
+        finally:
+            pass
 
 
     def interpretar(self, mensaje):
