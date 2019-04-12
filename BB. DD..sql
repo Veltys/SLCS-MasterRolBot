@@ -2,7 +2,7 @@ BEGIN TRANSACTION;
 DROP TABLE IF EXISTS "Usuarios";
 CREATE TABLE IF NOT EXISTS "Usuarios" (
 	"Id"	INTEGER NOT NULL UNIQUE,
-	"Estado"	INTEGER NOT NULL,
+	"Estado"	INTEGER NOT NULL DEFAULT 0,
 	PRIMARY KEY("Id"),
 	FOREIGN KEY("Estado") REFERENCES "Estados"("Id")
 );
@@ -19,4 +19,6 @@ CREATE TABLE IF NOT EXISTS "Juegos" (
 	"Id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	"Nombre"	TEXT
 );
+INSERT INTO "Estados" VALUES (0,0,'Sin juego elegido','Estado "especial" que aglutina a los usuarios que no han elegido ningún juego');
+INSERT INTO "Juegos" VALUES (0,'Sin juego elegido');
 COMMIT;
