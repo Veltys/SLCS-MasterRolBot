@@ -162,12 +162,16 @@ Comandos disponibles:
             - Cierra el bot si recibe dos veces el comando adecuado
         '''
 
+        self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando de cierre...')
+
         if self.__cierre == False:
             self.__cierre = True
 
-            self._bot.send_message(mensaje.chat.id, 'Aviso: Vuelva a ejecutar el comando para continuar con el cierre')
+            self._bot.send_message(mensaje.chat.id, 'AVISO: Vuelva a ejecutar el comando para continuar con el cierre')
 
         else:
+            self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando cierre...')
+
             self.cerrar()
     
             exit()
@@ -229,7 +233,7 @@ Comandos disponibles:
                     self.__comandos['/help'](self, mensaje)
 
                 else:
-                    self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando...')
+                    pass
     
                 finally:
                     pass
