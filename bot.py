@@ -6,14 +6,14 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 11-04-2019
-# Version       : 0.3.0
+# Date          : 12-04-2019
+# Version       : 0.3.1
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
 
 DEBUG                   = True                                                              # Flag de depuración
-NOMBRE_ARCHIVO_REGISTRO = 'MasterRolBot.log'
+NOMBRE_ARCHIVO_REGISTRO = 'MasterRolBot.log'                                                # Archivo de registro
 
 
 import signal                                                                               # Manejo de señales
@@ -59,6 +59,9 @@ class bot:
             print('Debug: El token para este bot es ' + self._token_bot)
 
         self._log = logger(NOMBRE_ARCHIVO_REGISTRO)
+
+        if DEBUG:
+            print('Debug: Activado el sistema de registro')
 
         self._bot = telebot.TeleBot(self._token_bot, threaded = False)                      # FIXME: Comportamiento no controlado cuando el token no es válido
         self._bot.set_update_listener(self.listener)                                        # Asociación de la función listener al bot
@@ -112,8 +115,13 @@ class bot:
             - Realiza las operaciones necesarias pevias al cierre del sistema, tales como cierres de archivos y otros bloqueos
         '''
 
+        if DEBUG:
+            print('Debug: Invocado el cierre del sistema')
 
         self._log.cerrar()
+
+        if DEBUG:
+            print('Debug: Desactivado el sistema de registro')
 
         self._pid.desactivar()
 
@@ -200,7 +208,7 @@ Comandos disponibles:
             log.registrar(texto + "\n")
 
             if DEBUG:
-                print('Debug: Nuevo texto ➡ ' + texto)
+                print('Debug: Nuevo mensaje ➡ ' + texto)
 
             self.interpretar(mensaje)
 
