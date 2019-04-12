@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 12-04-2019
-# Version       : 0.4.2
+# Version       : 0.5.0
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -51,6 +51,7 @@ class bot:
         self.__comandos = {
             '/help'     : bot.cmd_help      ,
             '/option'   : bot.cmd_option    ,
+            '/start'    : bot.cmd_start     ,
 
             '.close'    : bot.cmd_close     ,
         }
@@ -194,10 +195,12 @@ Comandos disponibles:
 
         pass
 
+
     def cmd_start(self, mensaje):
         
         with self._bbdd:
             self._bbdd.execute("insert into Usuarios(Id) values (?)", (str(mensaje.chat.id),))
+
 
     def interpretar(self, mensaje):
         ''' Método "parser" para interpretar el mensaje y actuar en consecuencia
