@@ -246,7 +246,7 @@ Comandos disponibles:
             else:                                                                           # Si no (chat con grupo):
                 texto += str(mensaje.from_user.first_name)                                  #     Obtención del nombre
 
-            texto += ' [' + str(mensaje.chat.id) + ']: ' + mensaje.text                     # Composición del resto del texto
+            texto += "\t[" + str(mensaje.chat.id) + ']: ' + mensaje.text                     # Composición del resto del texto
 
             log.registrar(texto + "\n")
 
