@@ -155,9 +155,9 @@ Soy *MasterRolBot*, el bot de juego de partidas de rol
 Comandos disponibles:
 - /help: Mostrar este texto de ayuda
 - /start: Iniciar una nueva aventura
-- /choose _<aventura>_: Elegir una nueva aventura
+- /play _<aventura>_: Elegir una nueva aventura
 - /option _<letra>_: Seleccionar la opción _<letra>_
-''', parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
+''', reply_markup = telebot.types.ReplyKeyboardRemove(), parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
 
 
     def cmd_close(self, mensaje):
@@ -165,7 +165,7 @@ Comandos disponibles:
             - Cierra el bot si recibe dos veces el comando adecuado
         '''
 
-        self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando de cierre...')
+        self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando de cierre...', reply_markup = telebot.types.ReplyKeyboardRemove())
 
         if self.__cierre == False:
             self.__cierre = True
@@ -173,7 +173,7 @@ Comandos disponibles:
             self._bot.send_message(mensaje.chat.id, 'AVISO: Vuelva a ejecutar el comando para continuar con el cierre')
 
         else:
-            self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando cierre...')
+            self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando cierre...', reply_markup = telebot.types.ReplyKeyboardRemove())
 
             self.cerrar()
 
@@ -223,14 +223,18 @@ Comandos disponibles:
 '''
 
         finally:
-            self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` != 0')
+            self._bbdd.execute('SELECT `Id`, `Nombre` FROM `Juegos` WHERE `Id` != 0')
+
+            botones = telebot.types.ReplyKeyboardMarkup()
 
             juegos = self._bbdd.fetchall()
 
             for juego in juegos:
-                texto += juego[0] + "\n"
+                texto += '/play ' + str(juego[0]) + ': ' + juego[1] + "\n"
 
-            self._bot.send_message(mensaje.chat.id, texto)
+                botones.add(telebot.types.KeyboardButton('/play ' + str(juego[0])))
+
+            self._bot.send_message(mensaje.chat.id, texto, reply_markup = botones)
 
 
     def interpretar(self, mensaje):
@@ -248,7 +252,7 @@ Comandos disponibles:
                 self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
     
             except KeyError:
-                self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido')
+                self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
     
                 self.__comandos['/help'](self, mensaje)
 
@@ -264,7 +268,7 @@ Comandos disponibles:
                     self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
 
                 except KeyError:
-                    self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido')
+                    self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
 
                     self.__comandos['/help'](self, mensaje)
 
@@ -275,7 +279,7 @@ Comandos disponibles:
                     pass
 
             else:
-                self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando')
+                self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando', reply_markup = telebot.types.ReplyKeyboardRemove())
 
         else:
             pass
