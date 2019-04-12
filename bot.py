@@ -107,6 +107,8 @@ class bot:
 
         self.cerrar()
 
+        exit()
+
 
     def arrancar(self):
         ''' Método de arranque del bot:
@@ -173,7 +175,7 @@ Comandos disponibles:
             self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando cierre...')
 
             self.cerrar()
-    
+
             exit()
 
 
