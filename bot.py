@@ -245,6 +245,8 @@ UPDATE `Usuarios` SET `Estado` = (
 
         self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
 
+    # TODO: Mostrar el estado
+
 
     def cmd_start(self, mensaje):
         ''' Método de inicio del bot a través de una opción
