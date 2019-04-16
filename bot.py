@@ -215,10 +215,15 @@ Comandos disponibles:
                 - No existe tal aventura
             - Informa al usuario del resultado
         '''
-        
-        for s in str(mensaje.text).split():
-            if s.isdigit():
-                id_juego = s
+
+        if mensaje.text[0] == '/':
+            id_juego = mensaje.text[1:]
+
+        else:
+            id_juego = mensaje.text
+
+        if id_juego[0:3] == 'play':
+            id_juego = id_juego[5:]
 
         self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE Id = \'%s\'' % id_juego)
 
