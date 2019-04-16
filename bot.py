@@ -221,7 +221,43 @@ Comandos disponibles:
                 - Informa al usuario de que no está jugando y le ofrece el catálogo de aventuras disponibles
         '''
 
-        pass
+        id_opcion = self._filtrar_texto(mensaje.text)
+
+        self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = \'%s\'' % mensaje.chat.id)
+
+        res = self._bbdd.fetchone()
+
+        if res[0] != 0:
+            if id_opcion == 'a':
+                limite = 0
+
+            elif id_opcion == 'b':
+                limite = 1
+
+            elif id_opcion == 'c':
+                limite = 2
+
+            else: # id_opcion == d
+                limite = 3
+
+            self._bbdd.execute('''
+UPDATE `Usuarios` SET `Estado` = (
+SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
+) WHERE `Id` = (?)
+''', (
+        res[0]          ,
+        limite          ,
+        mensaje.chat.id ,
+    ))
+
+            # TODO: Mostrar el estado
+
+            # TODO: Estado final
+
+        else:
+            texto = 'ERROR: Seleccione una aventura'
+
+        self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
 
 
     def cmd_play(self, mensaje):
@@ -246,9 +282,9 @@ UPDATE `Usuarios` SET `Estado` = (
     SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
 ) WHERE `Id` = (?)
 ''', (
-                                id_juego        ,
-                                mensaje.chat.id ,
-                              ))
+        id_juego        ,
+        mensaje.chat.id ,
+    ))
 
             texto = 'OK: Comenzando nueva partida en ' + res[0]
 
