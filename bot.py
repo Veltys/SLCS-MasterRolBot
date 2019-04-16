@@ -100,7 +100,26 @@ class bot:
         archivo_token_bot.close()
 
         self._token_bot = self._token_bot.lstrip().replace("\n", '')                        # Eliminación de espacios y demás del final... por si acaso...
-    
+
+
+    def _filtrar_texto(self, texto):
+        ''' Método de filtrado para extraer la id de un comando
+        '''
+
+        if texto[0] == '/':
+            id_texto = texto[1:]
+
+        else:
+            id_texto = texto
+
+        if id[0:4] == 'play':
+            id_texto = id[5:]
+
+        elif id[0:6] == 'option':
+            id_texto = id[7:]
+
+        return id_texto
+
 
     def _sig_cerrar(self, signum, frame):
         ''' Método "wrapper" para la captura de la señal "sigterm"
@@ -215,16 +234,9 @@ Comandos disponibles:
             - Informa al usuario del resultado
         '''
 
-        if mensaje.text[0] == '/':
-            id_juego = mensaje.text[1:]
+        id_juego = self._filtrar_texto(mensaje.text)
 
-        else:
-            id_juego = mensaje.text
-
-        if id_juego[0:4] == 'play':
-            id_juego = id_juego[5:]
-
-        self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE Id = \'%s\'' % id_juego)
+        self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = \'%s\'' % id_juego)
 
         res = self._bbdd.fetchone()
 
