@@ -222,7 +222,7 @@ Comandos disponibles:
         else:
             id_juego = mensaje.text
 
-        if id_juego[0:3] == 'play':
+        if id_juego[0:4] == 'play':
             id_juego = id_juego[5:]
 
         self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE Id = \'%s\'' % id_juego)
@@ -307,9 +307,23 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
                 self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
     
             except KeyError:
-                self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
+                try:
+                    int(mensaje.text[1:])                                                   # Comando explícito, número
     
-                self.__comandos['/help'](self, mensaje)
+                except ValueError:
+                    if len(mensaje.text) == 2 and mensaje.text[1].isalpha():                # Comando explícito, letra
+                        self.cmd_option(mensaje)
+            
+                    else:                                                                   # Comando no reconocido
+                        self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
+    
+                        self.__comandos['/help'](self, mensaje)
+
+                else:
+                    self.cmd_play(mensaje)
+    
+                finally:
+                    pass
 
             else:
                 pass
@@ -317,12 +331,6 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
             finally:
                 pass
             
-        elif isinstance(mensaje.text, Number):                                              # Comando implícito, número
-            self.cmd_play(mensaje)
-
-        elif len(mensaje.text) == 1 and mensaje.text.isalpha():                             # Comando implícito, letra
-            self.cmd_option(mensaje)
-
         elif mensaje.text[0] == '.':                                                        # Comando de administración explícito, comenzando por .
             if mensaje.chat.id in ADMINISTRADORES:
                 try:
@@ -342,8 +350,22 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
             else:
                 self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando', reply_markup = telebot.types.ReplyKeyboardRemove())
 
-        else:                                                                               # Texto no reconocido
-            self._bot.send_message(mensaje.chat.id, 'ERROR: Texto no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
+        else:
+            try:
+                int(mensaje.text)                                                           # Comando implícito, número
+
+            except ValueError:
+                if len(mensaje.text) == 1 and mensaje.text.isalpha():                       # Comando implícito, letra
+                    self.cmd_option(mensaje)
+        
+                else:                                                                       # Texto no reconocido
+                    self._bot.send_message(mensaje.chat.id, 'ERROR: Texto no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
+
+            else:
+                self.cmd_play(mensaje)
+
+            finally:
+                pass
 
 
     def listener(self, mensajes):
