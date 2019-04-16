@@ -242,9 +242,9 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
             juegos = self._bbdd.fetchall()
 
             for juego in juegos:
-                texto += '/play ' + str(juego[0]) + ': ' + juego[1] + "\n"
+                texto += '/' + str(juego[0]) + ' ' + juego[1] + "\n"
 
-                botones.add(telebot.types.KeyboardButton('/play ' + str(juego[0])))
+                botones.add(telebot.types.KeyboardButton(str(juego[0])))
 
             self._bot.send_message(mensaje.chat.id, texto, reply_markup = botones)
 
