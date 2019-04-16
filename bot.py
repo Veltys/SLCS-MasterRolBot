@@ -23,7 +23,6 @@ import sqlite3                                                                  
 
 import telebot                                                                              # Funcionalidades de la API del bot
 
-from numbers    import Number                                                               # Números
 from time       import gmtime, strftime                                                     # Funcionalidades varias de tiempo
 
 from logger     import logger                                                               # Funcionalidad de registro
