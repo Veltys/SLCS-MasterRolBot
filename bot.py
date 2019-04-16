@@ -130,16 +130,25 @@ class bot:
         if DEBUG:
             print('Debug: Invocado el cierre del sistema')
 
+        try:
+            self.__bbdd.commit()
+
+        except sqlite3.OperationalError as e:
+            self._log.registrar('ERROR: Imposible guardar los cambios en la BB. DD. ➡ ' + str(e) + "\n")
+
+        else:
+            pass
+
+        finally:
+            self.__bbdd.close()
+
+            if DEBUG:
+                print('Debug: Desconectado de la BB. DD.')
+
         self._log.cerrar()
 
         if DEBUG:
             print('Debug: Desactivado el sistema de registro')
-
-        self.__bbdd.commit()
-        self.__bbdd.close()
-
-        if DEBUG:
-            print('Debug: Desconectado de la BB. DD.')
 
         self._pid.desactivar()
 
