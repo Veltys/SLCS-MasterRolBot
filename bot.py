@@ -208,13 +208,12 @@ Comandos disponibles:
 
     def cmd_play(self, mensaje):
         ''' Método de inicio de una aventura a través de una opción
-            - Selecciona el nombre del juego del usuario en base al número de la aventura
-            - Comprueba el número de aventura introducido:
-                - Si es nulo:
-                    - No existe aventura disponible asociada
-                - Si no:
-                    - Actualiza el estado del usuario retrocediendo el estado de la aventura al mínimo, que es el estado inicial
-            - Informa al usuario del inicio de la aventura escogida
+            - Busca el nombre del juego solicitado por el usuario
+            - Si existe:
+                - Actualiza el estado del usuario al inicial de la aventura (el mínimo estado correspondiente)
+            - Si no:
+                - No existe tal aventura
+            - Informa al usuario del resultado
         '''
         
         for s in str(mensaje.text).split():
@@ -244,7 +243,7 @@ UPDATE `Usuarios` SET `Estado` = (
 
 
     def cmd_start(self, mensaje):
-        ''' Método de inicio de la aventura a través de una opción
+        ''' Método de inicio del bot a través de una opción
             - Si existe el usuario:
                 - Se le informa de las opciones que puede utilizar
             - Si no existe:
