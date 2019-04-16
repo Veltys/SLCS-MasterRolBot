@@ -207,7 +207,19 @@ Comandos disponibles:
 
 
     def cmd_play(self, mensaje):
-        id_juego = str(mensaje.text[-1])
+        ''' Método de inicio de una aventura a través de una opción
+            - Selecciona el nombre del juego del usuario en base al número de la aventura
+            - Comprueba el número de aventura introducido:
+                - Si es nulo:
+                    - No existe aventura disponible asociada
+                - Si no:
+                    - Actualiza el estado del usuario retrocediendo el estado de la aventura al mínimo, que es el estado inicial
+            - Informa al usuario del inicio de la aventura escogida
+        '''
+        
+        for s in str(mensaje.text).split():
+            if s.isdigit():
+                id_juego = s
 
         self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE Id = \'%s\'' % id_juego)
 
@@ -300,10 +312,10 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
     
             finally:
                 pass
-
+            
         elif isinstance(mensaje.text, Number):                                              # Comando implícito, número
             self.cmd_play(mensaje)
-
+            # FIXME: length()?
         elif mensaje.text.length == 1 and mensaje.text.isalpha():                           # Comando implícito, letra
             self.cmd_option(mensaje)
 
