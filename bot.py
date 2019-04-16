@@ -315,8 +315,8 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
             
         elif isinstance(mensaje.text, Number):                                              # Comando implícito, número
             self.cmd_play(mensaje)
-            # FIXME: length()?
-        elif mensaje.text.length == 1 and mensaje.text.isalpha():                           # Comando implícito, letra
+
+        elif len(mensaje.text) == 1 and mensaje.text.isalpha():                             # Comando implícito, letra
             self.cmd_option(mensaje)
 
         elif mensaje.text[0] == '.':                                                        # Comando de administración explícito, comenzando por .
