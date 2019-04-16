@@ -52,6 +52,7 @@ class bot:
         self.__comandos = {
             '/help'     : bot.cmd_help      ,
             '/option'   : bot.cmd_option    ,
+            '/play'     : bot.cmd_play      ,
             '/start'    : bot.cmd_start     ,
 
             '.close'    : bot.cmd_close     ,
@@ -205,6 +206,31 @@ Comandos disponibles:
         pass
 
 
+    def cmd_play(self, mensaje):
+        id_juego = str(mensaje.text[-1])
+
+        self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE Id = \'%s\'' % id_juego)
+
+        res = self._bbdd.fetchone()
+
+        if res != None:
+            self._bbdd.execute('''
+UPDATE `Usuarios` SET `Estado` = (
+    SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
+) WHERE `Id` = (?)
+''', (
+                                id_juego        ,
+                                mensaje.chat.id ,
+                              ))
+
+            texto = 'OK: Comenzando nueva partida en ' + res[0]
+
+        else:
+            texto = 'ERROR: La aventura seleccionada (' + id_juego + ') no existe o no está disponible en este momento'
+
+        self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
+
+
     def cmd_start(self, mensaje):
         ''' Método de inicio de la aventura a través de una opción
             - Si existe el usuario:
@@ -328,4 +354,3 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
                 print('Debug: Nuevo mensaje ➡ ' + texto)
 
             self.interpretar(mensaje)
-
