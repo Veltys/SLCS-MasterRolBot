@@ -304,8 +304,6 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
             - Los registra
         '''
 
-        log = logger(NOMBRE_ARCHIVO_REGISTRO)
-
         for mensaje in mensajes:
             texto = strftime("%d/%m/%Y, %H:%M:%S", gmtime()) + ' - '
 
@@ -317,7 +315,7 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
 
             texto += "\t[" + str(mensaje.chat.id) + ']: ' + mensaje.text                     # Composición del resto del texto
 
-            log.registrar(texto + "\n")
+            self._log.registrar(texto + "\n")
 
             if DEBUG:
                 print('Debug: Nuevo mensaje ➡ ' + texto)
