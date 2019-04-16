@@ -23,10 +23,11 @@ import sqlite3                                                                  
 
 import telebot                                                                              # Funcionalidades de la API del bot
 
-from time   import gmtime, strftime                                                         # Funcionalidades varias de tiempo
+from numbers    import Number                                                               # Números
+from time       import gmtime, strftime                                                     # Funcionalidades varias de tiempo
 
-from logger import logger                                                                   # Funcionalidad de registro
-from pid    import pid                                                                      # Funcionalidad de PID
+from logger     import logger                                                               # Funcionalidad de registro
+from pid        import pid                                                                  # Funcionalidad de PID
 
 
 class bot:
@@ -259,7 +260,7 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
                 - No hace nada
         '''
 
-        if mensaje.text[0] == '/':
+        if mensaje.text[0] == '/':                                                          # Comando explícito, comenzando por /
             try:
                 self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
     
@@ -274,7 +275,13 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
             finally:
                 pass
 
-        elif mensaje.text[0] == '.':
+        elif isinstance(mensaje.text, Number):                                              # Comando implícito, número
+            self.cmd_play(mensaje)
+
+        elif mensaje.text.length == 1 and mensaje.text.isalpha():                           # Comando implícito, letra
+            self.cmd_option(mensaje)
+
+        elif mensaje.text[0] == '.':                                                        # Comando de administración explícito, comenzando por .
             if mensaje.chat.id in ADMINISTRADORES:
                 try:
                     self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
@@ -293,8 +300,8 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
             else:
                 self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando', reply_markup = telebot.types.ReplyKeyboardRemove())
 
-        else:
-            pass
+        else:                                                                               # Texto no reconocido
+            self._bot.send_message(mensaje.chat.id, 'ERROR: Texto no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
 
 
     def listener(self, mensajes):
