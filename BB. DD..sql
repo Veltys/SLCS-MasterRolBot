@@ -36,24 +36,24 @@ INSERT INTO "Estados" VALUES (2,1,'Investigas la base secreta','La puerta está 
 INSERT INTO "Estados" VALUES (3,1,'Investigas la casa de Cálico Jack','Llamas al timbre de la casa y... ¡es la madre de Cálico! Te ofrece unos _boquerones en su tinta_, un _bocaillo shope_, un _bocata foigrá_ y unas _cocretas_. ¿Qué elegirás?');
 INSERT INTO "Estados" VALUES (4,1,'Investigas Electrónica web','Nada, que no se abre la puerta. ¿Eso es un felpudo con la cara de Muzaman?');
 INSERT INTO "Estados" VALUES (5,1,'Visita _ar chacho Migué_','¿Investigar? ¡Eso es para déblies! Vamos a visitar _ar chacho Migué_, que seguro que sabe algo o al menos nos venderá algún arma.');
-INSERT INTO "Estados" VALUES (100,1,'¡Bienvenido!','¡Fabuloso enunciado sin tema!
+INSERT INTO "Estados" VALUES (100,2,'¡Bienvenido!','¡Fabuloso enunciado sin tema!
 
 ¡¡Resuelve este maravilloso misterio!!');
-INSERT INTO "Estados" VALUES (101,1,'Título 1','Opción 1');
-INSERT INTO "Estados" VALUES (102,1,'Título 2','Opción 2');
-INSERT INTO "Estados" VALUES (103,1,'Título 3','Opción 3');
-INSERT INTO "Estados" VALUES (104,1,'Título 4','Opción 4');
-INSERT INTO "Estados" VALUES (105,1,'Título 5','Opción 5');
-INSERT INTO "Estados" VALUES (106,1,'Título 6','Opción 6');
-INSERT INTO "Estados" VALUES (107,1,'Título 7','Opción 7');
-INSERT INTO "Estados" VALUES (108,1,'Título 8','Opción 8');
-INSERT INTO "Estados" VALUES (109,1,'Título 9','Opción 9');
-INSERT INTO "Estados" VALUES (110,1,'Título 10','Opción 10');
-INSERT INTO "Estados" VALUES (111,1,'Título 11','Opción 11');
-INSERT INTO "Estados" VALUES (112,1,'Título 12','Opción 12');
-INSERT INTO "Estados" VALUES (113,1,'Título 13','Opción 13');
-INSERT INTO "Estados" VALUES (114,1,'Título 14','Opción 14');
-INSERT INTO "Estados" VALUES (115,1,'Título 15','Opción 15');
+INSERT INTO "Estados" VALUES (101,2,'Título 1','Opción 1');
+INSERT INTO "Estados" VALUES (102,2,'Título 2','Opción 2');
+INSERT INTO "Estados" VALUES (103,2,'Título 3','Opción 3');
+INSERT INTO "Estados" VALUES (104,2,'Título 4','Opción 4');
+INSERT INTO "Estados" VALUES (105,2,'Título 5','Opción 5');
+INSERT INTO "Estados" VALUES (106,2,'Título 6','Opción 6');
+INSERT INTO "Estados" VALUES (107,2,'Título 7','Opción 7');
+INSERT INTO "Estados" VALUES (108,2,'Título 8','Opción 8');
+INSERT INTO "Estados" VALUES (109,2,'Título 9','Opción 9');
+INSERT INTO "Estados" VALUES (110,2,'Título 10','Opción 10');
+INSERT INTO "Estados" VALUES (111,2,'Título 11','Opción 11');
+INSERT INTO "Estados" VALUES (112,2,'Título 12','Opción 12');
+INSERT INTO "Estados" VALUES (113,2,'Título 13','Opción 13');
+INSERT INTO "Estados" VALUES (114,2,'Título 14','Opción 14');
+INSERT INTO "Estados" VALUES (115,2,'Título 15','Opción 15');
 INSERT INTO "Juegos" VALUES (0,'Sin juego elegido');
 INSERT INTO "Juegos" VALUES (1,'El rol de Cálico Electrónico');
 INSERT INTO "Juegos" VALUES (2,'Juego de rol de prueba');
@@ -61,6 +61,7 @@ INSERT INTO "Opciones" VALUES (1,1,2);
 INSERT INTO "Opciones" VALUES (2,1,3);
 INSERT INTO "Opciones" VALUES (3,1,4);
 INSERT INTO "Opciones" VALUES (4,1,5);
+INSERT INTO "Opciones" VALUES (100,100,101);
 INSERT INTO "Opciones" VALUES (101,101,102);
 INSERT INTO "Opciones" VALUES (102,101,103);
 INSERT INTO "Opciones" VALUES (103,101,104);
