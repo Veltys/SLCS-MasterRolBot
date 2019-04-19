@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.0
+# Version       : 0.6.1
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -77,7 +77,7 @@ class bot:
         self._bot       = telebot.TeleBot(self._token_bot, threaded = False)                # FIXME: Comportamiento no controlado cuando el token no es válido
         self._bot.set_update_listener(self.listener)                                        # Asociación de la función listener al bot
 
-        self._pid       = pid('MasterRolBot')
+        self._pid       = pid('MasterRolBot.py')
 
         signal.signal(signal.SIGTERM, self._sig_cerrar)
 
