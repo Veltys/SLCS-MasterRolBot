@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.4
+# Version       : 0.6.5
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -145,7 +145,7 @@ SELECT `Nombre`, `Descripcion` FROM `Estados` WHERE `Id` = (?)
 
         res = self._bbdd.fetchone()
 
-        texto = '*' + res[0] + "*\n" + res[1]
+        texto = '*' + res[0] + "*\n" + res[1] + "\n\nTus opciones:\n"
 
         self._bbdd.execute('''
 SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
