@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.7
+# Version       : 0.7.0
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -49,12 +49,14 @@ class bot:
         self.__cierre   = False
 
         self.__comandos = {
-            '/help'     : bot.cmd_help      ,
-            '/option'   : bot.cmd_option    ,
-            '/play'     : bot.cmd_play      ,
-            '/start'    : bot.cmd_start     ,
+            # Comandos normales
+            '/help'      : bot.cmd_help      ,
+            '/option'    : bot.cmd_option    ,
+            '/play'      : bot.cmd_play      ,
+            '/start'     : bot.cmd_start     ,
 
-            '.close'    : bot.cmd_close     ,
+            # Comandos de administración
+            '.close'     : bot.cmd_close     ,
         }
 
         self._cargar_token()
@@ -430,70 +432,47 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
                 - No hace nada
         '''
 
-        if mensaje.text[0] == '/':                                                          # Comando explícito, comenzando por /
+        ejecutar = True
+
+        comando = mensaje.text
+
+        if mensaje.text[0] != '/' and mensaje.text[0] != '.':
+            comando = '/' + comando
+
+        if mensaje.text[0] == '.' and mensaje.chat.id not in ADMINISTRADORES:
+                ejecutar = False
+
+        if ejecutar:
             try:
-                self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
-    
+                self.__comandos[comando.split(' ')[0]](self, mensaje)                       # Comando explícito, comenzando por / o .
+
             except KeyError:
                 try:
-                    int(mensaje.text[1:])                                                   # Comando explícito, número
-    
+                    int(comando[1:])                                                        # Comando explícito, número
+
                 except ValueError:
-                    if len(mensaje.text) == 2 and mensaje.text[1].isalpha():                # Comando explícito, letra
+                    if len(comando) == 2 and comando[1:].isalpha():                         # Comando explícito, letra
                         self.cmd_option(mensaje)
-            
+
                     else:                                                                   # Comando no reconocido
                         self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
-    
-                        self.__comandos['/help'](self, mensaje)
+
+                        self.cmd_help(mensaje)
 
                 else:
                     self.cmd_play(mensaje)
-    
+
                 finally:
                     pass
 
             else:
                 pass
-    
+
             finally:
                 pass
-            
-        elif mensaje.text[0] == '.':                                                        # Comando de administración explícito, comenzando por .
-            if mensaje.chat.id in ADMINISTRADORES:
-                try:
-                    self.__comandos[mensaje.text.split(' ')[0]](self, mensaje)
-
-                except KeyError:
-                    self._bot.send_message(mensaje.chat.id, 'ERROR: Comando no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
-
-                    self.__comandos['/help'](self, mensaje)
-
-                else:
-                    pass
-    
-                finally:
-                    pass
-
-            else:
-                self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando', reply_markup = telebot.types.ReplyKeyboardRemove())
 
         else:
-            try:
-                int(mensaje.text)                                                           # Comando implícito, número
-
-            except ValueError:
-                if len(mensaje.text) == 1 and mensaje.text.isalpha():                       # Comando implícito, letra
-                    self.cmd_option(mensaje)
-        
-                else:                                                                       # Texto no reconocido
-                    self._bot.send_message(mensaje.chat.id, 'ERROR: Texto no reconocido', reply_markup = telebot.types.ReplyKeyboardRemove())
-
-            else:
-                self.cmd_play(mensaje)
-
-            finally:
-                pass
+            self._bot.send_message(mensaje.chat.id, 'ERROR: No tiene los permisos necesarios para ejecutar este comando', reply_markup = telebot.types.ReplyKeyboardRemove())
 
 
     def listener(self, mensajes):
