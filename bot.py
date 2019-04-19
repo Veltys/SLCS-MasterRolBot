@@ -310,7 +310,7 @@ Comandos disponibles:
     
                 self._bbdd.execute('''
     UPDATE `Usuarios` SET `Estado` = (
-    SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
+    SELECT `Siguiente` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
     ) WHERE `Id` = (?)
     ''', (
                     res[0]          ,
