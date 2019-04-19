@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.3
+# Version       : 0.6.4
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -276,43 +276,53 @@ Comandos disponibles:
                 - Informa al usuario de que no está jugando y le ofrece el catálogo de aventuras disponibles
         '''
 
-        id_opcion = self._filtrar_texto(mensaje.text)
-
-        self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = (?)', (
-            mensaje.chat.id
+        self._bbdd.execute('SELECT COUNT(`Id`) FROM `Usuarios` WHERE `Id` = (?)', (
+            mensaje.chat.id ,
         ))
 
         res = self._bbdd.fetchone()
 
-        if res[0] != 0:
-            if id_opcion == 'a':
-                limite = 0
-
-            elif id_opcion == 'b':
-                limite = 1
-
-            elif id_opcion == 'c':
-                limite = 2
-
-            else: # id_opcion == d
-                limite = 3
-
-            self._bbdd.execute('''
-UPDATE `Usuarios` SET `Estado` = (
-SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
-) WHERE `Id` = (?)
-''', (
-                res[0]          ,
-                limite          ,
+        if res[0] == 1:
+            id_opcion = self._filtrar_texto(mensaje.text)
+    
+            self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = (?)', (
                 mensaje.chat.id ,
             ))
-
-            self._mostrar_estado(mensaje.chat.id)
+    
+            res = self._bbdd.fetchone()
+    
+            if res[0] != 0:
+                if id_opcion == 'a':
+                    limite = 0
+    
+                elif id_opcion == 'b':
+                    limite = 1
+    
+                elif id_opcion == 'c':
+                    limite = 2
+    
+                else: # id_opcion == d
+                    limite = 3
+    
+                self._bbdd.execute('''
+    UPDATE `Usuarios` SET `Estado` = (
+    SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
+    ) WHERE `Id` = (?)
+    ''', (
+                    res[0]          ,
+                    limite          ,
+                    mensaje.chat.id ,
+                ))
+    
+                self._mostrar_estado(mensaje.chat.id)
+    
+            else:
+                texto = 'ERROR: Seleccione primero una aventura'
+    
+            self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
 
         else:
-            texto = 'ERROR: Seleccione primero una aventura'
-
-        self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
+            self._bot.send_message(mensaje.chat.id, 'ERROR: Por favor, utilice primero el comando /start', reply_markup = telebot.types.ReplyKeyboardRemove())
 
 
     def cmd_play(self, mensaje):
@@ -325,32 +335,42 @@ SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
             - Informa al usuario del resultado
         '''
 
-        id_juego = self._filtrar_texto(mensaje.text)
-
-        self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = (?)', (
-            id_juego    ,
+        self._bbdd.execute('SELECT COUNT(`Id`) FROM `Usuarios` WHERE `Id` = (?)', (
+            mensaje.chat.id ,
         ))
 
         res = self._bbdd.fetchone()
 
-        if res != None:
-            self._bbdd.execute('''
-UPDATE `Usuarios` SET `Estado` = (
-    SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
-) WHERE `Id` = (?)
-''', (
-                id_juego        ,
-                mensaje.chat.id ,
+        if res[0] == 1:
+            id_juego = self._filtrar_texto(mensaje.text)
+    
+            self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = (?)', (
+                id_juego    ,
             ))
-
-            texto = 'OK: Comenzando nueva partida en ' + res[0]
+    
+            res = self._bbdd.fetchone()
+    
+            if res != None:
+                self._bbdd.execute('''
+    UPDATE `Usuarios` SET `Estado` = (
+        SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
+    ) WHERE `Id` = (?)
+    ''', (
+                    id_juego        ,
+                    mensaje.chat.id ,
+                ))
+    
+                texto = 'OK: Comenzando nueva partida en ' + res[0]
+    
+            else:
+                texto = 'ERROR: La aventura seleccionada (' + id_juego + ') no existe o no está disponible en este momento'
+    
+            self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
+    
+            self._mostrar_estado(mensaje.chat.id)
 
         else:
-            texto = 'ERROR: La aventura seleccionada (' + id_juego + ') no existe o no está disponible en este momento'
-
-        self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
-
-        self._mostrar_estado(mensaje.chat.id)
+            self._bot.send_message(mensaje.chat.id, 'ERROR: Por favor, utilice primero el comando /start', reply_markup = telebot.types.ReplyKeyboardRemove())
 
 
     def cmd_start(self, mensaje):
@@ -363,7 +383,7 @@ UPDATE `Usuarios` SET `Estado` = (
         '''
 
         try:
-            self._bbdd.execute('INSERT INTO `Usuarios`(`Id`) VALUES (?)', (
+            self._bbdd.execute('INSERT INTO `Usuarios`(`Id`) VALUES((?))', (
                 str(mensaje.chat.id)    ,
             ))
 
