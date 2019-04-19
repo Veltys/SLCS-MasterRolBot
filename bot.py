@@ -287,41 +287,49 @@ Comandos disponibles:
         res = self._bbdd.fetchone()
 
         if res[0] == 1:
-            id_opcion = self._filtrar_texto(mensaje.text)
-    
-            self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = (?)', (
-                mensaje.chat.id ,
-            ))
-    
-            res = self._bbdd.fetchone()
-    
-            if res[0] != 0:
-                if id_opcion == 'a':
-                    limite = 0
-    
-                elif id_opcion == 'b':
-                    limite = 1
-    
-                elif id_opcion == 'c':
-                    limite = 2
-    
-                else: # id_opcion == d
-                    limite = 3
-    
-                self._bbdd.execute('''
-    UPDATE `Usuarios` SET `Estado` = (
-    SELECT `Siguiente` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
-    ) WHERE `Id` = (?)
-    ''', (
-                    res[0]          ,
-                    limite          ,
+            try:
+                id_opcion = self._filtrar_texto(mensaje.text)
+
+            except TypeError:
+                self._bot.send_message(mensaje.chat.id, 'ERROR: Este comando requiere un parámetro adicional', reply_markup = telebot.types.ReplyKeyboardRemove())
+
+            else:
+                self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = (?)', (
                     mensaje.chat.id ,
                 ))
-    
-                self._mostrar_estado(mensaje.chat.id)
-    
-            else:
-                self._bot.send_message(mensaje.chat.id, 'ERROR: Seleccione primero una aventura', reply_markup = telebot.types.ReplyKeyboardRemove())
+
+                res = self._bbdd.fetchone()
+
+                if res[0] != 0:
+                    if id_opcion == 'a':
+                        limite = 0
+
+                    elif id_opcion == 'b':
+                        limite = 1
+
+                    elif id_opcion == 'c':
+                        limite = 2
+
+                    else: # id_opcion == d
+                        limite = 3
+
+                    self._bbdd.execute('''
+        UPDATE `Usuarios` SET `Estado` = (
+        SELECT `Siguiente` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
+        ) WHERE `Id` = (?)
+        ''', (
+                        res[0]          ,
+                        limite          ,
+                        mensaje.chat.id ,
+                    ))
+
+                    self._mostrar_estado(mensaje.chat.id)
+
+                else:
+                    self._bot.send_message(mensaje.chat.id, 'ERROR: Seleccione primero una aventura', reply_markup = telebot.types.ReplyKeyboardRemove())
+
+            finally:
+                pass
 
         else:
             self._bot.send_message(mensaje.chat.id, 'ERROR: Por favor, utilice primero el comando /start', reply_markup = telebot.types.ReplyKeyboardRemove())
@@ -344,32 +352,37 @@ Comandos disponibles:
         res = self._bbdd.fetchone()
 
         if res[0] == 1:
-            id_juego = self._filtrar_texto(mensaje.text)
-    
-            self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = (?)', (
-                id_juego    ,
-            ))
-    
-            res = self._bbdd.fetchone()
-    
-            if res != None:
-                self._bbdd.execute('''
-    UPDATE `Usuarios` SET `Estado` = (
-        SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
-    ) WHERE `Id` = (?)
-    ''', (
-                    id_juego        ,
-                    mensaje.chat.id ,
-                ))
-    
-                texto = 'OK: Comenzando nueva partida en ' + res[0]
-    
+            try:
+                id_juego = self._filtrar_texto(mensaje.text)
+
+            except TypeError:
+                self._bot.send_message(mensaje.chat.id, 'ERROR: Este comando requiere un parámetro adicional', reply_markup = telebot.types.ReplyKeyboardRemove())
+
             else:
-                texto = 'ERROR: La aventura seleccionada (' + id_juego + ') no existe o no está disponible en este momento'
-    
-            self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
-    
-            self._mostrar_estado(mensaje.chat.id)
+                self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = (?)', (
+                    id_juego    ,
+                ))
+
+                res = self._bbdd.fetchone()
+
+                if res != None:
+                    self._bbdd.execute('''
+        UPDATE `Usuarios` SET `Estado` = (
+            SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
+        ) WHERE `Id` = (?)
+        ''', (
+                        id_juego        ,
+                        mensaje.chat.id ,
+                    ))
+
+                    texto = 'OK: Comenzando nueva partida en ' + res[0]
+
+                else:
+                    texto = 'ERROR: La aventura seleccionada (' + id_juego + ') no existe o no está disponible en este momento'
+
+                self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
+
+                self._mostrar_estado(mensaje.chat.id)
 
         else:
             self._bot.send_message(mensaje.chat.id, 'ERROR: Por favor, utilice primero el comando /start', reply_markup = telebot.types.ReplyKeyboardRemove())
