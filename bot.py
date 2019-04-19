@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.5
+# Version       : 0.6.6
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -161,6 +161,8 @@ SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
 
         i = 0
 
+        # TODO: Botones en cuadrícula de 2 x 2 si son 4
+
         for opcion in opciones:
             texto += '/' + letra[i] + ' ' + opcion[0] + "\n"
 
@@ -168,7 +170,7 @@ SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
 
             i = i + 1
 
-        else:
+        if i == 0:
             texto += "/start Comenzar una nueva aventura\n"
 
             botones.add(telebot.types.KeyboardButton('start'))
