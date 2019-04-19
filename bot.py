@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.5.2
+# Version       : 0.6.0
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -119,6 +119,61 @@ class bot:
             id_texto = id[7:]
 
         return id_texto
+
+
+    def _mostrar_estado(self, usuario):
+        # TODO: Documentar
+
+        letra = []
+
+        letra.append('a')
+        letra.append('b')
+        letra.append('c')
+        letra.append('d')
+
+        self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = (?)', (
+            usuario ,
+        ))
+
+        estado = self._bbdd.fetchone()[0]
+
+        self._bbdd.execute('''
+SELECT `Nombre`, `Descripcion` FROM `Estados` WHERE `Id` = (?)
+''', (
+            estado  ,
+        ))
+
+        res = self._bbdd.fetchone()
+
+        texto = '*' + res[0] + "*\n" + res[1]
+
+        self._bbdd.execute('''
+SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
+    SELECT `Siguiente` FROM `Opciones` WHERE `Estado` = (?)
+)
+''', (
+            estado  ,
+        ))
+
+        botones = telebot.types.ReplyKeyboardMarkup()
+
+        opciones = self._bbdd.fetchall()
+
+        i = 0
+
+        for opcion in opciones:
+            texto += '/' + letra[i] + ' ' + opcion[0] + "\n"
+
+            botones.add(telebot.types.KeyboardButton(letra[i]))
+
+            i = i + 1
+
+        else:
+            texto += "/start Comenzar una nueva aventura\n"
+
+            botones.add(telebot.types.KeyboardButton('start'))
+
+        self._bot.send_message(usuario, texto, parse_mode = 'Markdown', reply_markup = botones)
 
 
     def _sig_cerrar(self, signum, frame):
@@ -252,9 +307,7 @@ SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
                 mensaje.chat.id ,
             ))
 
-            # TODO: Mostrar el estado
-
-            # TODO: Estado final
+            self._mostrar_estado(mensaje.chat.id)
 
         else:
             texto = 'ERROR: Seleccione primero una aventura'
@@ -297,7 +350,7 @@ UPDATE `Usuarios` SET `Estado` = (
 
         self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
 
-    # TODO: Mostrar el estado
+        self._mostrar_estado(mensaje.chat.id)
 
 
     def cmd_start(self, mensaje):
