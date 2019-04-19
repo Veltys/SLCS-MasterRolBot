@@ -6,8 +6,8 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 12-04-2019
-# Version       : 0.5.0
+# Date          : 19-04-2019
+# Version       : 0.5.1
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -223,7 +223,9 @@ Comandos disponibles:
 
         id_opcion = self._filtrar_texto(mensaje.text)
 
-        self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = \'%s\'' % mensaje.chat.id)
+        self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = (?)', (
+            mensaje.chat.id
+        ))
 
         res = self._bbdd.fetchone()
 
@@ -245,10 +247,10 @@ UPDATE `Usuarios` SET `Estado` = (
 SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
 ) WHERE `Id` = (?)
 ''', (
-        res[0]          ,
-        limite          ,
-        mensaje.chat.id ,
-    ))
+                res[0]          ,
+                limite          ,
+                mensaje.chat.id ,
+            ))
 
             # TODO: Mostrar el estado
 
@@ -272,7 +274,9 @@ SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
 
         id_juego = self._filtrar_texto(mensaje.text)
 
-        self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = \'%s\'' % id_juego)
+        self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = (?)', (
+            id_juego    ,
+        ))
 
         res = self._bbdd.fetchone()
 
@@ -282,9 +286,9 @@ UPDATE `Usuarios` SET `Estado` = (
     SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
 ) WHERE `Id` = (?)
 ''', (
-        id_juego        ,
-        mensaje.chat.id ,
-    ))
+                id_juego        ,
+                mensaje.chat.id ,
+            ))
 
             texto = 'OK: Comenzando nueva partida en ' + res[0]
 
@@ -307,11 +311,13 @@ UPDATE `Usuarios` SET `Estado` = (
 
         try:
             self._bbdd.execute('INSERT INTO `Usuarios`(`Id`) VALUES (?)', (
-                                str(mensaje.chat.id)    ,
-                              ))
+                str(mensaje.chat.id)    ,
+            ))
 
         except sqlite3.IntegrityError:
-            self._bbdd.execute('SELECT Estado FROM Usuarios WHERE Id = \'%s\'' % str(mensaje.chat.id))
+            self._bbdd.execute('SELECT Estado FROM Usuarios WHERE Id = (?)', (
+                str(mensaje.chat.id)    ,
+            ))
 
             if self._bbdd.fetchone()[0] == 0:
                 texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:"
@@ -338,7 +344,7 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
 
                 botones.add(telebot.types.KeyboardButton(str(juego[0])))
 
-            self._bot.send_message(mensaje.chat.id, texto, reply_markup = botones)
+            self._bot.send_message(mensaje.chat.id, texto, parse_mode = 'Markdown', reply_markup = botones)
 
 
     def interpretar(self, mensaje):
