@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.6
+# Version       : 0.6.7
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -319,9 +319,7 @@ Comandos disponibles:
                 self._mostrar_estado(mensaje.chat.id)
     
             else:
-                texto = 'ERROR: Seleccione primero una aventura'
-    
-            self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
+                self._bot.send_message(mensaje.chat.id, 'ERROR: Seleccione primero una aventura', reply_markup = telebot.types.ReplyKeyboardRemove())
 
         else:
             self._bot.send_message(mensaje.chat.id, 'ERROR: Por favor, utilice primero el comando /start', reply_markup = telebot.types.ReplyKeyboardRemove())
