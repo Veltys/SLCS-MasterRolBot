@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.1
+# Version       : 0.6.2
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -373,7 +373,7 @@ UPDATE `Usuarios` SET `Estado` = (
             ))
 
             if self._bbdd.fetchone()[0] == 0:
-                texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:"
+                texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:\n"
 
             else:
                 texto = '¡Bienvenido, ' + mensaje.chat.first_name + '''!
