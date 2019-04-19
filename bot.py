@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.5.1
+# Version       : 0.5.2
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -257,7 +257,7 @@ SELECT `Id` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
             # TODO: Estado final
 
         else:
-            texto = 'ERROR: Seleccione una aventura'
+            texto = 'ERROR: Seleccione primero una aventura'
 
         self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
 
@@ -324,7 +324,7 @@ UPDATE `Usuarios` SET `Estado` = (
 
             else:
                 texto = '¡Bienvenido, ' + mensaje.chat.first_name + '''!
-Si deseas continuar, simplemente responde con la opción que desees.
+Si deseas continuar, responde con la opción que desees.
 Si deseas reiniciar tu aventura, puedes usar el comando /reiniciar
 Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
 '''
