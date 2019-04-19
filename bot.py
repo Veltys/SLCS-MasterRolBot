@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 19-04-2019
-# Version       : 0.6.2
+# Version       : 0.6.3
 # Usage         : import bot | from log bot ...
 # Notes         : 
 
@@ -112,11 +112,11 @@ class bot:
         else:
             id_texto = texto
 
-        if id[0:4] == 'play':
-            id_texto = id[5:]
+        if id_texto[0:4] == 'play':
+            id_texto = id_texto[5:]
 
-        elif id[0:6] == 'option':
-            id_texto = id[7:]
+        elif id_texto[0:6] == 'option':
+            id_texto = id_texto[7:]
 
         return id_texto
 
