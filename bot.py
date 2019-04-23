@@ -428,7 +428,7 @@ Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
 '''
         # TODO: Añadir aviso de que se va a borrar la partida
         else:
-            texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:"
+            texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:\n"
 
         finally:
             self._bbdd.execute('SELECT `Id`, `Nombre` FROM `Juegos` WHERE `Id` != 0')
