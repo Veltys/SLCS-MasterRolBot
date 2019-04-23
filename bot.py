@@ -313,17 +313,27 @@ Comandos disponibles:
                     else: # id_opcion == d
                         limite = 3
 
-                    self._bbdd.execute('''
-        UPDATE `Usuarios` SET `Estado` = (
-        SELECT `Siguiente` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
-        ) WHERE `Id` = (?)
-        ''', (
-                        res[0]          ,
-                        limite          ,
-                        mensaje.chat.id ,
-                    ))
+                    try:
+                        self._bbdd.execute('''
+            UPDATE `Usuarios` SET `Estado` = (
+            SELECT `Siguiente` FROM `Opciones` WHERE `Estado` = (?) LIMIT (?), 1
+            ) WHERE `Id` = (?)
+            ''', (
+                            res[0]          ,
+                            limite          ,
+                            mensaje.chat.id ,
+                        ))
 
-                    self._mostrar_estado(mensaje.chat.id)
+                    except sqlite3.IntegrityError:
+                        # TODO: Mostrar fallo
+
+                        pass
+
+                    else:
+                        self._mostrar_estado(mensaje.chat.id)
+
+                    finally:
+                        pass
 
                 else:
                     self._bot.send_message(mensaje.chat.id, 'ERROR: Seleccione primero una aventura', reply_markup = telebot.types.ReplyKeyboardRemove())
