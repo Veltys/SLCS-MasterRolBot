@@ -313,6 +313,8 @@ Comandos disponibles:
                     else: # id_opcion == d
                         limite = 3
 
+                    # TODO: Repasar opciones incorrectas
+
                     try:
                         self._bbdd.execute('''
             UPDATE `Usuarios` SET `Estado` = (
@@ -354,6 +356,8 @@ Comandos disponibles:
                 - No existe tal aventura
             - Informa al usuario del resultado
         '''
+
+        # TODO: Aviso de reinicio
 
         self._bbdd.execute('SELECT COUNT(`Id`) FROM `Usuarios` WHERE `Id` = (?)', (
             mensaje.chat.id ,
