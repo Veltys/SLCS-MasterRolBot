@@ -426,7 +426,7 @@ Si deseas continuar, responde con la opción que desees.
 Si deseas reiniciar tu aventura, puedes usar el comando /reiniciar
 Si deseas cambiar de aventura, aquí tienes una lista de aventuras disponibles:
 '''
-
+        # TODO: Añadir aviso de que se va a borrar la partida
         else:
             texto = '¡Bienvenido, ' + mensaje.chat.first_name + "!\nLa lista de aventuras disponibles es:"
 
