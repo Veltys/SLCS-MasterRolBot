@@ -243,7 +243,7 @@ Soy *MasterRolBot*, el bot de juego de partidas de rol
 Comandos disponibles:
 - /help: Mostrar este texto de ayuda
 - /start: Iniciar una nueva aventura
-- /play _<aventura>_: Elegir una nueva aventura
+- /play _<aventura>_: Elegir la aventura _<aventura>_
 - /option _<letra>_: Seleccionar la opción _<letra>_
 ''', reply_markup = telebot.types.ReplyKeyboardRemove(), parse_mode = 'Markdown')                                                               # El parámetro "parse_mode" permite mandar texto enriquecido
 
