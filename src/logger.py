@@ -6,7 +6,7 @@
 # Description   : Módulo de registro (log) del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 08-06-2020
+# Date          : 2020-06-08
 # Version       : 0.1.2
 # Usage         : import log | from log import ...
 # Notes         : Implementado con el patrón singleton para evitar más de un sistema de registro simultáneo

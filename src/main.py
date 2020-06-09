@@ -6,10 +6,10 @@
 # Description   : Función main del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 12-04-2019
+# Date          : 2019-04-12
 # Version       : 0.1.2
 # Usage         : python3 main.py
-# Notes         :
+# Notes         : ...
 
 
 DEBUG           = True                                                                              # Flag de depuración
