@@ -108,8 +108,9 @@ venv.bak/
 /.pydevproject
 /.settings/
 /.dbeaver-data-sources.xml
+/.dbeaver
 
 # Protección de archivos del proyecto
-/.bot.token
-/bbdd.sqlite
-/bbdd.sqlite-journal
+/data/.bot.token
+/data/bbdd.sqlite
+/data/bbdd.sqlite-journal

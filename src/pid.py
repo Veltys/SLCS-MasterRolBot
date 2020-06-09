@@ -21,6 +21,7 @@ class _comun_pid(object):
     ''' Clase que contiene todos los métodos comunes de este sistema
     '''
 
+
     def __init__(self, nombre):
         ''' Constructor de la clase:
             - Inicializa las variables
