@@ -1,25 +1,25 @@
 # MasterRolBot
-Trabajo práctico de la asignatura Software Libre y Compromiso Social de la Universidad de Córdoba.
+Trabajo práctico de la asignatura Software Libre y Compromiso Social de la Universidad de Córdoba [![Codacy Badge](https://app.codacy.com/project/badge/Grade/3bd07a5ec898417ea90357d75d4cd643)](https://www.codacy.com/manual/veltys/SLCS-MasterRolBot?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Veltys/SLCS-MasterRolBot&amp;utm_campaign=Badge_Grade)
 
 ## Descripción
-Bot para Telegram que permite generar una partida de rol.
+Bot para Telegram que permite generar una partida de rol
 
 ## Módulos
--   :on: **main.py**:   Módulo de arranque y control del bot.
--   :on: **bot.py**:    Módulo principal del bot.
--   :on: **logger.py**: Módulo de registro del bot.
--   :on: **pid.py**:    Módulo de prevención de ejecución de más de una instancia y de control del PID.
+-   :on: **main.py**:   Módulo de arranque y control del bot
+-   :on: **bot.py**:    Módulo principal del bot
+-   :on: **logger.py**: Módulo de registro del bot
+-   :on: **pid.py**:    Módulo de prevención de ejecución de más de una instancia y de control del PID
 
 ## Versiones
 -   0.0.1 :arrow_right: 08/03/2019:
     -   :end: Creación del script **main.py**
-    -   :end: Carga del token de Telegram generado por [@BotFather](https://telegram.me/botfather).
+    -   :end: Carga del token de Telegram generado por [@BotFather](https://telegram.me/botfather)
     -   :end: Redacción de **README.md**
 
 -   0.1.0 :arrow_right: 11/03/2019:
     -   :end: Mejora de **README.md**
-    -   :end: Implementación del registro de mensajes.
-    -   :end: Implementación de la funcionalidad de pid.
+    -   :end: Implementación del registro de mensajes
+    -   :end: Implementación de la funcionalidad de pid
 
 -   0.2.0 :arrow_right: 12/04/2020:
     -   :end: Implementación del intérprete de comandos
@@ -58,10 +58,10 @@ Bot para Telegram que permite generar una partida de rol.
 -   SQLite 3.32.2
 
 ## Agradecimientos, fuentes consultadas y otros créditos
--   A *Juan Antonio Romero* y *Domingo Ortiz*, profesores de Software libre y compromiso social (en adelante, SLCS) en la [Universidad de Córdoba](http://www.uco.es/) durante el curso 2018-2019, sin los cuales no habría sido posible este proyecto.
--   A la [documentación oficial de Python](https://docs.python.org/3/), por motivos evidentes.
--   A [Veltys](https://github.com/Veltys), por [el módulo pid](https://github.com/Veltys/RPPGCT/blob/master/Python/pid.py) de su proyecto [RPPGCT](https://github.com/Veltys/RPPGCT), el cuál está siendo muy útil para este proyecto.
--   A [*guu*](https://www.flickr.com/photos/gustavo/), por la [Foto para el avatar del bot](https://www.flickr.com/photos/gustavo/354116197/).
+-   A *Juan Antonio Romero* y *Domingo Ortiz*, profesores de Software libre y compromiso social (en adelante, SLCS) en la [Universidad de Córdoba](http://www.uco.es/) durante el curso 2018-2019, sin los cuales no habría sido posible este proyecto
+-   A la [documentación oficial de Python](https://docs.python.org/3/), por motivos evidentes
+-   A [Veltys](https://github.com/Veltys), por [el módulo pid](https://github.com/Veltys/RPPGCT/blob/master/Python/pid.py) de su proyecto [RPPGCT](https://github.com/Veltys/RPPGCT), el cuál está siendo muy útil para este proyecto
+-   A [*guu*](https://www.flickr.com/photos/gustavo/), por la [Foto para el avatar del bot](https://www.flickr.com/photos/gustavo/354116197/)
 
 <!--
 
