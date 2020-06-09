@@ -43,19 +43,19 @@ Bot para Telegram que permite generar una partida de rol.
   - :end: Actualizado **pid.py** a la última versión disponible
 
 ## Entorno de desarrollo
-- Eclipse IDE for PHP Developers 2019-03 (4.11.0)
-- PyDev 7.1.0
-- DBeaver 6.0.2
-- Windows 10 x86_64
-- Python 3.7.2
-- Librería [pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBotAPI) 3.6.6
-- SQLite 3.27.2
+- Eclipse IDE for PHP Developers 2020-03 (4.15.0)
+- PyDev 7.5.0
+- DBeaver IDE 7.0.3
+- Windows 10 Pro 2004 x86_64
+- Python 3.8.3
+- Librería [pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBotAPI) 3.7.1
+- SQLite 3.32.2
 
 ## Entorno de ejecución
-- Debian GNU/Linux 4.9.130-2 x86_64
+- Debian GNU/Linux 4.9.210-1 x86_64
 - Python 3.5.3
-- Librería [pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBotAPI) 3.6.6
-- SQLite 3.27.2
+- Librería [pyTelegramBotAPI](https://github.com/eternnoir/pyTelegramBotAPI) 3.7.1
+- SQLite 3.32.2
 
 ## Agradecimientos, fuentes consultadas y otros créditos
 - A *Juan Antonio Romero* y *Domingo Ortiz*, profesores de Software libre y compromiso social (en adelante, SLCS) en la [Universidad de Córdoba](http://www.uco.es/) durante el curso 2018-2019, sin los cuales no habría sido posible este proyecto.
