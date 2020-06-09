@@ -6,10 +6,10 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 09-06-2020
+# Date          : 2020-06-09
 # Version       : 0.7.2
 # Usage         : import bot | from log bot ...
-# Notes         :
+# Notes         : ...
 
 ADMINISTRADORES         = []                                                                # Lista de administradores
 ADMINISTRADORES.append(***REMOVED***)                                                           # Jesús
