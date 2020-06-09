@@ -99,7 +99,7 @@ class logger:
             ruta_archivo = '/var/log/'
 
         # TODO: Otros sistemas operativos
-    
+
         return ruta_archivo
 
 
