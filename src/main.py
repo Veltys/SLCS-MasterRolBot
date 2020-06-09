@@ -9,7 +9,7 @@
 # Date          : 12-04-2019
 # Version       : 0.1.2
 # Usage         : python3 main.py
-# Notes         : 
+# Notes         :
 
 
 DEBUG           = True                                                                              # Flag de depuración

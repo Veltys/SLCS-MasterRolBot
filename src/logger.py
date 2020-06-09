@@ -6,13 +6,14 @@
 # Description   : Módulo de registro (log) del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 10-04-2019
-# Version       : 0.1.1
+# Date          : 08-06-2020
+# Version       : 0.1.2
 # Usage         : import log | from log import ...
 # Notes         : Implementado con el patrón singleton para evitar más de un sistema de registro simultáneo
 
 
-from platform import system
+from os         import getcwd, sep                                                          # Funcionalidades del sistema operativo
+from platform   import system
 
 
 class logger:
@@ -20,7 +21,7 @@ class logger:
     '''
 
 
-    __instancia         = None                                                                      # Declarar una variable directamente en la clase la hace estática
+    __instancia         = None                                                              # Declarar una variable directamente en la clase la hace estática
 
 
     def __new__(cls, nombre_archivo):
@@ -54,7 +55,6 @@ class logger:
         ''' Método de cierre de la clase:
                 - Si hay un archivo de registro abierto:
                     - Lo cierra
-                
         '''
 
 
@@ -93,8 +93,8 @@ class logger:
 
 
         if system() == 'Windows':
-            ruta_archivo = '.\\'
-    
+            ruta_archivo = getcwd() + sep + '..' + sep + 'logs' + sep
+
         else:
             ruta_archivo = '/var/log/'
 

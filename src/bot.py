@@ -6,10 +6,10 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 19-04-2019
-# Version       : 0.7.0
+# Date          : 09-06-2020
+# Version       : 0.7.2
 # Usage         : import bot | from log bot ...
-# Notes         : 
+# Notes         :
 
 ADMINISTRADORES         = []                                                                # Lista de administradores
 ADMINISTRADORES.append(163732926)                                                           # Jesús
@@ -23,6 +23,7 @@ import sqlite3                                                                  
 
 import telebot                                                                              # Funcionalidades de la API del bot
 
+from os         import getcwd, sep                                                          # Funcionalidades del sistema operativo
 from time       import gmtime, strftime                                                     # Funcionalidades varias de tiempo
 
 from logger     import logger                                                               # Funcionalidad de registro
@@ -70,7 +71,7 @@ class bot:
         if DEBUG:
             print('Debug: Activado el sistema de registro')
 
-        self.__bbdd     = sqlite3.connect('bbdd.sqlite')
+        self.__bbdd     = sqlite3.connect(getcwd() + sep + '..' + sep + 'data' + sep + 'bbdd.sqlite')
         self._bbdd      = self.__bbdd.cursor()
 
         if DEBUG:
@@ -95,16 +96,17 @@ class bot:
         '''
 
 
-        archivo_token_bot = open('.bot.token', 'r')
+        archivo_token_bot = open(getcwd() + sep + '..' + sep + 'data' + sep + '.bot.token', 'r')
 
         self._token_bot = archivo_token_bot.read()
-    
+
         archivo_token_bot.close()
 
         self._token_bot = self._token_bot.lstrip().replace("\n", '')                        # Eliminación de espacios y demás del final... por si acaso...
 
 
-    def _filtrar_texto(self, texto):
+    @staticmethod
+    def _filtrar_texto(texto):
         ''' Método de filtrado para extraer la id de un comando
         '''
 
