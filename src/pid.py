@@ -5,8 +5,8 @@
 # Title         : pid.py
 # Description   : Módulo auxiliar para ciertas funciones de bloqueo y de PIDs
 # Author        : Veltys
-# Date          : 19-04-2019
-# Version       : 1.1.0
+# Date          : 2019-11-22
+# Version       : 1.1.2
 # Usage         : import pid | from pid import <clase>
 # Notes         : ...
 
@@ -20,7 +20,6 @@ if os.name == 'nt':
 class _comun_pid(object):
     ''' Clase que contiene todos los métodos comunes de este sistema
     '''
-
 
     def __init__(self, nombre):
         ''' Constructor de la clase:
@@ -38,7 +37,7 @@ class _comun_pid(object):
                 - Actúa como modificador de la variable "_nombre" de la clase
         '''
 
-        if nombre == False:
+        if not(nombre):
             return self._nombre
 
         else:
