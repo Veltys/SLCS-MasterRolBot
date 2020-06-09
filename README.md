@@ -39,6 +39,8 @@ Bot para Telegram que permite generar una partida de rol.
 - 0.4.2: :arrow_right: 09/06/2020:
   - :end: Reorganización de directorios
   - :end: Mejoras en la calidad del código
+  - :end: Fechas de los archivos en formato ISO 8601
+  - :end: Actualizado **pid.py** a la última versión disponible
 
 ## Entorno de desarrollo
 - Eclipse IDE for PHP Developers 2019-03 (4.11.0)
