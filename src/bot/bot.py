@@ -7,7 +7,7 @@
 # Author        : jesusFx
 # Author        : Veltys
 # Date          : 2020-06-09
-# Version       : 0.7.2
+# Version       : 0.7.3
 # Usage         : import bot | from log bot ...
 # Notes         : ...
 
@@ -66,21 +66,21 @@ class bot:
             print('Debug: Inicializando bot...')
             print('Debug: El token para este bot es ' + self._token_bot)
 
-        self._log       = logger(NOMBRE_ARCHIVO_REGISTRO)
+        self._log   = logger.logger(NOMBRE_ARCHIVO_REGISTRO)
 
         if DEBUG:
             print('Debug: Activado el sistema de registro')
 
-        self.__bbdd     = sqlite3.connect(getcwd() + sep + '..' + sep + 'data' + sep + 'bbdd.sqlite')
-        self._bbdd      = self.__bbdd.cursor()
+        self.__bbdd = sqlite3.connect(getcwd() + sep + '..' + sep + 'data' + sep + 'bbdd.sqlite')
+        self._bbdd  = self.__bbdd.cursor()
 
         if DEBUG:
             print('Debug: Conectado a la BB. DD.')
 
-        self._bot       = telebot.TeleBot(self._token_bot, threaded = False)                # FIXME: Comportamiento no controlado cuando el token no es válido
+        self._bot   = telebot.TeleBot(self._token_bot, threaded = False)                    # FIXME: Comportamiento no controlado cuando el token no es válido
         self._bot.set_update_listener(self.listener)                                        # Asociación de la función listener al bot
 
-        self._pid       = pid('MasterRolBot.py')
+        self._pid   = pid.pid('MasterRolBot.py')
 
         signal.signal(signal.SIGTERM, self._sig_cerrar)
 
