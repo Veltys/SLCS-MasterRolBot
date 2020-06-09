@@ -6,13 +6,13 @@
 # Description   : Función main del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 2019-04-12
-# Version       : 0.1.2
+# Date          : 2020-06-09
+# Version       : 0.1.3
 # Usage         : python3 main.py
 # Notes         : ...
 
 
-DEBUG           = True                                                                              # Flag de depuración
+DEBUG = True                                                                                        # Flag de depuración
 
 
 import sys                                                                                          # Funcionalidades varias del sistema
@@ -32,7 +32,7 @@ def main(argv):
 
 
     try:
-        my_bot = bot()
+        my_bot = bot.bot()
 
     except FileNotFoundError:
         print('Error: No se ha encontrado el archivo con el token para este bot')
