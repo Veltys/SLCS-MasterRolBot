@@ -6,16 +6,18 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 2020-06-09
+# Date          : 2020-06-20
 # Version       : 0.7.3
 # Usage         : import bot | from log bot ...
 # Notes         : ...
 
 ADMINISTRADORES         = []                                                                # Lista de administradores
-ADMINISTRADORES.append(***REMOVED***)                                                           # Jesús
-ADMINISTRADORES.append(***REMOVED***)                                                           # Rafa
 DEBUG                   = True                                                              # Flag de depuración
 NOMBRE_ARCHIVO_REGISTRO = 'MasterRolBot.log'                                                # Archivo de registro
+
+
+ADMINISTRADORES.append(***REMOVED***)                                                           # Jesús
+ADMINISTRADORES.append(***REMOVED***)                                                           # Rafa
 
 
 import signal                                                                               # Manejo de señales
@@ -55,6 +57,7 @@ class bot:
             '/option'    : bot.cmd_option    ,
             '/play'      : bot.cmd_play      ,
             '/start'     : bot.cmd_start     ,
+            # '/restart'   : bot.cmd_restart   ,
 
             # Comandos de administración
             '.close'     : bot.cmd_close     ,
@@ -72,12 +75,14 @@ class bot:
             print('Debug: Activado el sistema de registro')
 
         self.__bbdd = sqlite3.connect(getcwd() + sep + '..' + sep + 'data' + sep + 'bbdd.sqlite')
+
         self._bbdd  = self.__bbdd.cursor()
 
         if DEBUG:
             print('Debug: Conectado a la BB. DD.')
 
-        self._bot   = telebot.TeleBot(self._token_bot, threaded = False)                    # FIXME: Comportamiento no controlado cuando el token no es válido
+        self._bot   = telebot.TeleBot(self._token_bot, threaded = False)
+
         self._bot.set_update_listener(self.listener)                                        # Asociación de la función listener al bot
 
         self._pid   = pid.pid('MasterRolBot.py')
@@ -126,14 +131,8 @@ class bot:
 
 
     def _mostrar_estado(self, usuario):
-        # TODO: Documentar
-
-        letra = []
-
-        letra.append('a')
-        letra.append('b')
-        letra.append('c')
-        letra.append('d')
+        ''' Método para mostrar los estados de un usuario
+        '''
 
         self._bbdd.execute('SELECT `Estado` FROM `Usuarios` WHERE `Id` = (?)', (
             usuario ,
@@ -159,25 +158,31 @@ SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
             estado  ,
         ))
 
-        botones = telebot.types.ReplyKeyboardMarkup()
-
         opciones = self._bbdd.fetchall()
 
-        i = 0
-
-        # TODO: Botones en cuadrícula de 2 x 2 si son 4
-
-        for opcion in opciones:
-            texto += '/' + letra[i] + ' ' + opcion[0] + "\n"
-
-            botones.add(telebot.types.KeyboardButton(letra[i]))
-
-            i = i + 1
-
-        if i == 0:
+        if not opciones:
             texto += "/start Comenzar una nueva aventura\n"
 
+            botones = telebot.types.ReplyKeyboardMarkup()
             botones.add(telebot.types.KeyboardButton('start'))
+
+        else:
+            botones = telebot.types.ReplyKeyboardMarkup(row_width = 2)
+
+            texto += '/a' + ' ' + opciones[0][0] + "\n"
+            texto += '/b' + ' ' + opciones[1][0] + "\n"
+            texto += '/c' + ' ' + opciones[2][0] + "\n"
+            texto += '/d' + ' ' + opciones[3][0] + "\n"
+
+            texto += "/reiniciar Reiniciar la aventura\n"
+
+            botones.add(
+                telebot.types.KeyboardButton('a'),
+                telebot.types.KeyboardButton('b'),
+                telebot.types.KeyboardButton('c'),
+                telebot.types.KeyboardButton('d'),
+                telebot.types.KeyboardButton('reiniciar'),
+                )
 
         self._bot.send_message(usuario, texto, parse_mode = 'Markdown', reply_markup = botones)
 
@@ -185,7 +190,6 @@ SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
     def _sig_cerrar(self, signum, frame):
         ''' Método "wrapper" para la captura de la señal "sigterm"
         '''
-
 
         self.cerrar()
 
@@ -200,7 +204,7 @@ SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
 
         self._pid.activar()
 
-        self._bot.polling(none_stop = True)                                                 # Recepción de mensajes
+        self._bot.polling()                                                                 # Recepción de mensajes
 
 
     def cerrar(self):
@@ -368,13 +372,9 @@ Comandos disponibles:
         res = self._bbdd.fetchone()
 
         if res[0] == 1:
-            try:
-                id_juego = self._filtrar_texto(mensaje.text)
+            id_juego = self._filtrar_texto(mensaje.text)
 
-            except TypeError:
-                self._bot.send_message(mensaje.chat.id, 'ERROR: Este comando requiere un parámetro adicional', reply_markup = telebot.types.ReplyKeyboardRemove())
-
-            else:
+            if id_juego:
                 self._bbdd.execute('SELECT `Nombre` FROM `Juegos` WHERE `Id` = (?)', (
                     id_juego    ,
                 ))
@@ -383,13 +383,14 @@ Comandos disponibles:
 
                 if res != None:
                     self._bbdd.execute('''
-        UPDATE `Usuarios` SET `Estado` = (
-            SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
-        ) WHERE `Id` = (?)
-        ''', (
-                        id_juego        ,
-                        mensaje.chat.id ,
-                    ))
+                        UPDATE `Usuarios` SET `Estado` = (
+                            SELECT MIN(`Id`) FROM `Estados` WHERE `Juego` = (?)
+                        ) WHERE `Id` = (?)
+                        ''', (
+                            id_juego        ,
+                            mensaje.chat.id ,
+                        )
+                    )
 
                     texto = 'OK: Comenzando nueva partida en ' + res[0]
 
@@ -399,6 +400,9 @@ Comandos disponibles:
                 self._bot.send_message(mensaje.chat.id, texto, reply_markup = telebot.types.ReplyKeyboardRemove())
 
                 self._mostrar_estado(mensaje.chat.id)
+
+            else:
+                self.cmd_start(mensaje)
 
         else:
             self._bot.send_message(mensaje.chat.id, 'ERROR: Por favor, utilice primero el comando /start', reply_markup = telebot.types.ReplyKeyboardRemove())
