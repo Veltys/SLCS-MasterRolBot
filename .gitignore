@@ -111,6 +111,4 @@ venv.bak/
 /.dbeaver
 
 # Protección de archivos del proyecto
-/data/.bot.token
-/data/bbdd.sqlite
-/data/bbdd.sqlite-journal
+/data/
