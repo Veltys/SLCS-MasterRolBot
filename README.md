@@ -42,6 +42,13 @@ Bot para Telegram que permite generar una partida de rol
     -   :end: Fechas de los archivos en formato ISO 8601
     -   :end: Actualizado **pid.py** a la última versión disponible
 
+-   0.5.0: :arrow_right: 22/04/2021:
+    -   :end: Añadido el archivo requirements.txt con los paquetes requeridos
+    -   :end: Añadidas más protecciones en .gitignore
+    -   :end: Cambiado el sistema de carga de administradores
+    -   :end: Cambiado el sistema de cierre del bot
+    -   :end: Mejorado el sistema de carga del token
+
 ## Entorno de desarrollo
 -   Eclipse IDE for PHP Developers 2020-03 (4.15.0)
 -   PyDev 7.5.0
