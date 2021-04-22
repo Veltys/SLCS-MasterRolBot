@@ -6,8 +6,8 @@
 # Description   : Módulo del bot
 # Author        : jesusFx
 # Author        : Veltys
-# Date          : 2020-06-20
-# Version       : 0.7.3
+# Date          : 2021-04-22
+# Version       : 0.7.4
 # Usage         : import bot | from log bot ...
 # Notes         : ...
 
@@ -16,16 +16,13 @@ DEBUG                   = True                                                  
 NOMBRE_ARCHIVO_REGISTRO = 'MasterRolBot.log'                                                # Archivo de registro
 
 
-ADMINISTRADORES.append(163732926)                                                           # Jesús
-ADMINISTRADORES.append(281866468)                                                           # Rafa
-
-
+import os                                                                                   # Funcionalidades del sistema operativo
 import signal                                                                               # Manejo de señales
 import sqlite3                                                                              # Manejo de BB. DD. SQLite 3
 
 import telebot                                                                              # Funcionalidades de la API del bot
 
-from os         import getcwd, sep                                                          # Funcionalidades del sistema operativo
+from sys        import stderr                                                               # Funcionalidades varias del sistema
 from time       import gmtime, strftime                                                     # Funcionalidades varias de tiempo
 
 from logger     import logger                                                               # Funcionalidad de registro
@@ -39,6 +36,7 @@ class bot:
 
     def __init__(self):
         ''' Constructor de la clase:
+                - Carga los administradores del bot
                 - Carga el token del acceso a la api de Telegram
                 - Activa el sistema de registro
                 - Conecta con la api de Telegram
@@ -63,6 +61,7 @@ class bot:
             '.close'     : bot.cmd_close     ,
         }
 
+        self._cargar_administradores()
         self._cargar_token()
 
         if DEBUG:
@@ -74,7 +73,7 @@ class bot:
         if DEBUG:
             print('Debug: Activado el sistema de registro')
 
-        self.__bbdd = sqlite3.connect(getcwd() + sep + '..' + sep + 'data' + sep + 'bbdd.sqlite')
+        self.__bbdd = sqlite3.connect(os.getcwd() + os.sep + '..' + os.sep + 'data' + os.sep + 'bbdd.sqlite')
 
         self._bbdd  = self.__bbdd.cursor()
 
@@ -90,6 +89,38 @@ class bot:
         signal.signal(signal.SIGTERM, self._sig_cerrar)
 
 
+    @staticmethod
+    def _cargar_administradores():
+        ''' Método privado de carga de los administradores de Telegram:
+                - Intenta abrir para su lectura el archivo de administradores
+                - Si puede:
+                    - Lo lee y lo almacena en la constante correspondiente
+                    - Cierra el archivo
+                - Si no:
+                    - Sale de la ejecución
+        '''
+
+
+        nombre_archivo = os.getcwd() + os.sep + '..' + os.sep + 'data' + os.sep + '.admins.csv'
+
+        try:
+            archivo = open(nombre_archivo, 'r')
+
+        except IOError:
+            print(f'Error de apertura del archivo <{nombre_archivo}>')
+            print(f'ERROR: imposible abrir el archivo <{nombre_archivo}>', file = stderr)
+
+            exit(os.EX_OSFILE)                                                              # @UndefinedVariable
+
+        else:
+            admins = archivo.read().split(',')
+
+            for _, admin in enumerate(admins):
+                ADMINISTRADORES.append(int(admin))
+
+            archivo.close()
+
+
     def _cargar_token(self):
         ''' Método privado de carga del token de Telegram:
                 - Intenta abrir para su lectura el archivo del token
@@ -101,13 +132,23 @@ class bot:
         '''
 
 
-        archivo_token_bot = open(getcwd() + sep + '..' + sep + 'data' + sep + '.bot.token', 'r')
+        nombre_archivo = os.getcwd() + os.sep + '..' + os.sep + 'data' + os.sep + '.bot.token'
 
-        self._token_bot = archivo_token_bot.read()
+        try:
+            archivo = open(nombre_archivo, 'r')
 
-        archivo_token_bot.close()
+        except IOError:
+            print(f'Error de apertura del archivo <{nombre_archivo}>')
+            print(f'ERROR: imposible abrir el archivo <{nombre_archivo}>', file = stderr)
 
-        self._token_bot = self._token_bot.lstrip().replace("\n", '')                        # Eliminación de espacios y demás del final... por si acaso...
+            exit(os.EX_OSFILE)                                                              # @UndefinedVariable
+
+        else:
+            self._token_bot = archivo.read()
+
+            archivo.close()
+
+            self._token_bot = self._token_bot.lstrip().replace("\n", '')                    # Eliminación de espacios y demás del final... por si acaso...
 
 
     @staticmethod
