@@ -23,7 +23,7 @@ import sqlite3                                                                  
 import telebot                                                                              # Funcionalidades de la API del bot
 
 from sys        import stderr                                                               # Funcionalidades varias del sistema
-from time       import gmtime, strftime                                                     # Funcionalidades varias de tiempo
+from time       import gmtime, strftime, time                                               # Funcionalidades varias de tiempo
 
 from logger     import logger                                                               # Funcionalidad de registro
 from pid        import pid                                                                  # Funcionalidad de PID
@@ -46,9 +46,6 @@ class bot:
                 - Captura la señal "sigterm"
         '''
 
-
-        self.__cierre   = False
-
         self.__comandos = {
             # Comandos normales
             '/help'      : bot.cmd_help      ,
@@ -60,6 +57,8 @@ class bot:
             # Comandos de administración
             '.close'     : bot.cmd_close     ,
         }
+
+        self.__fecha = time()
 
         self._cargar_administradores()
         self._cargar_token()
@@ -228,7 +227,7 @@ SELECT `Nombre` FROM `Estados` WHERE `Id` IN(
         self._bot.send_message(usuario, texto, parse_mode = 'Markdown', reply_markup = botones)
 
 
-    def _sig_cerrar(self, signum, frame):
+    def _sig_cerrar(self, signum, frame):                                                   # @UnusedVariable
         ''' Método "wrapper" para la captura de la señal "sigterm"
         '''
 
@@ -300,14 +299,7 @@ Comandos disponibles:
             - Cierra el bot si recibe dos veces el comando adecuado
         '''
 
-        self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando comando de cierre...', reply_markup = telebot.types.ReplyKeyboardRemove())
-
-        if self.__cierre == False:
-            self.__cierre = True
-
-            self._bot.send_message(mensaje.chat.id, 'AVISO: Vuelva a ejecutar el comando para continuar con el cierre')
-
-        else:
+        if(mensaje.date > self.__fecha):
             self._bot.send_message(mensaje.chat.id, 'OK: Ejecutando cierre...', reply_markup = telebot.types.ReplyKeyboardRemove())
 
             self.cerrar()
